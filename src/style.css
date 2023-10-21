@@ -22,3 +22,12 @@ div#game>* {
     top: 0;
     left: 0;
 }
+
+div.ui-screen {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+div.ui-screen[data-active] {
+    display: block;
+}

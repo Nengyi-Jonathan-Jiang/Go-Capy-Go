@@ -1,16 +1,17 @@
 class Canvas {
     /**
-     * @param width
+     * @param {number} width
      * Width of canvas in pixels. Defaults to window width.
-     * @param height
+     * @param {number} height
      * Height of canvas in pixels. Defaults to window height.
-     * @param parent
+     * @param {HTMLCanvasElement} canvas
      * If parent is an HTML element, (like div or body),the created HTMLCanvasElement will be appended to it.
      */
-    constructor(width, height, parent) {
-        this.canvas = document.createElement('canvas');
-        this.w = this.canvas.width = width || window.innerWidth;
-        this.h = this.canvas.height = height || window.innerHeight;
+    constructor(canvas, width=1, height=1) {
+        this.canvas = canvas;
+        let parent = canvas.parentElement;
+        this.w = this.canvas.width = width;
+        this.h = this.canvas.height = height;
         if (parent && parent.appendChild) parent.appendChild(this.canvas);
         this.ctx = this.canvas.getContext('2d', {alpha: true}) || (_ => {
             alert('Error: Unable to create canvas rendering context')
@@ -47,28 +48,13 @@ class Canvas {
     /**
      * Resizes the canvas to the provided dimensions,or the size provided by the CSS attributes.
      * @param width
-     * Width in pixels. If not truthy,will be the window width.
+     * Width in pixels. If zero, defaults to the width provided by CSS
      * @param height
-     * Height in pixels. If not truthy,will be the window height.
+     * Height in pixels. If zero, defaults to the height provided by CSS
      */
-    resize(width, height) {
-        this.canvas.width = this.w = width || this.canvas.clientWidth;
-        this.canvas.height = this.h = height || this.canvas.clientHeight;
-    }
-
-    /**
-     * Resizes the canvas to the dimensions of the parent element (Will probably throw error if the parent provided in the constructor was not a HTMLElement)
-     */
-    resizeToParent() {
-        if (!this.parent) return;
-        this.resize(this.parent.clientWidth, this.parent.clientHeight);
-    }
-
-    /**
-     * resizes the canvas to the dimensions of the window
-     */
-    resizeToWindow() {
-        this.resize(window.innerWidth, window.innerHeight);
+    resize(width=0, height=0) {
+        this.canvas.width = this.w = width || ~~(this.canvas.clientWidth / 16) * 16;
+        this.canvas.height = this.h = height || ~~(this.canvas.clientHeight / 9) * 9;
     }
 
     /**
@@ -170,7 +156,12 @@ class Canvas {
     clear(color) {
         this.ctx.save();
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-        if (color) this.setFillColor(color), this.ctx.fillRect(0, 0, this.w, this.h); else this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        if (color) {
+            this.setFillColor(color);
+            this.ctx.fillRect(0, 0, this.w, this.h);
+        } else {
+            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        }
         this.ctx.restore();
     }
 
@@ -290,10 +281,9 @@ class Canvas {
      * Fill text with top left corner at (x,y)
      * @param txt
      * The text to display
-     * @param size
-     * The font size in pixels
-     * @param  font
-     * A string parsed like a CSS font property (like "italic bold 16px Times";)
+     * @param x
+     * @param y
+     * @param size The font size in pixels
      */
     fillText(txt, x, y, size) {
         this.ctx.beginPath();
@@ -307,10 +297,9 @@ class Canvas {
      * Outline text with top left corner at (x,y)
      * @param txt
      * The text to display
-     * @param size
-     * The font size in pixels
-     * @param font
-     * A string parsed like a CSS font property (like "italic bold 16px Times";)
+     * @param x
+     * @param y
+     * @param size The font size in pixels
      */
     strokeText(txt, x, y, size) {
         this.ctx.beginPath();
@@ -461,26 +450,26 @@ class Canvas {
     /**
      * Draws an image scaled to width (preserving the aspect ratio) with top left corner at (x,y)
      */
-    drawImageWithWidth(img, x, y, destwidth) {
-        let destheight = destwidth / img.width * img.height;
-        this.ctx.drawImage(img, x, y, destwidth, destheight);
+    drawImageWithWidth(img, x, y, dest_width) {
+        let dest_height = dest_width / img.width * img.height;
+        this.ctx.drawImage(img, x, y, dest_width, dest_height);
     }
 
     /**
      * Draws an image scaled to height (preserving the aspect ratio) with top left corner at (x,y)
      */
-    drawImageWithHeight(img, x, y, destheight) {
-        let destwidth = destheight / img.height * img.width;
-        this.ctx.drawImage(img, x, y, destwidth, destheight);
+    drawImageWithHeight(img, x, y, dest_height) {
+        let dest_width = dest_height / img.height * img.width;
+        this.ctx.drawImage(img, x, y, dest_width, dest_height);
     }
 
     /**
      * Draws an image on a rect with top left corner (x1,y1) and bottom right corner (x2,y2)
      */
     drawImageOnRect(img, x1, y1, x2, y2) {
-        let destwidth = ~~(x2 - x1);
-        let destheight = ~~(y2 - y1);
-        this.ctx.drawImage(img, x1, y1, destwidth, destheight);
+        let dest_width = x2 - x1;
+        let dest_height = y2 - y1;
+        this.ctx.drawImage(img, x1, y1, dest_width, dest_height);
     }
 
     /**
@@ -522,13 +511,21 @@ class Canvas {
     }
 
     /**
-     * Calls f(current time,elapsed time in milliseconds) 60 times per second (or tries to...)
-     * @param {Function} f-the function to be called
+     * Scales context x units horizontally and y units vertically
+     */
+    scale(x, y) {
+        this.ctx.scale(x, y);
+    }
+
+
+    /**
+     * Calls f(current time, elapsed time in milliseconds) 60 times per second
+     * @param {Function} f the function to be called
      */
     static createAnimation(f) {
         let then = 0;
         const f2 = (t) => {
-            if (f(0.001 * t, 0.001 * (then - t))) return;
+            f(t * 0.001, (then - t) * 0.001);
             then = t;
             requestAnimationFrame(f2);
         };
