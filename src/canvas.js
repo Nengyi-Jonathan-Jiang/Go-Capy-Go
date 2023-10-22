@@ -525,7 +525,7 @@ class Canvas {
     static createAnimation(f) {
         let then = 0;
         const f2 = (t) => {
-            f(t * 0.001, (then - t) * 0.001);
+            f(t * 0.001, (t - then) * 0.001);
             then = t;
             requestAnimationFrame(f2);
         };

@@ -13,6 +13,7 @@ div#game {
     width: calc(min(100vw/16, 100vh/9) * 16);
     height: calc(min(100vw/16, 100vh/9) * 9);
     position: relative;
+    background-color: white;
 }
 
 div#game>* {
@@ -30,4 +31,8 @@ div.ui-screen {
 }
 div.ui-screen[data-active] {
     display: block;
+}
+
+canvas {
+    image-rendering: pixelated;
 }
