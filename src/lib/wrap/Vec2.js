@@ -4,6 +4,8 @@
  * @template T
  */
 
+/** @typedef {{x:number,y:number}} vector */
+/** @extends {vector} */
 class Vec2 {
     /**
      * @param {number} x

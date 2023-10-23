@@ -1,4 +1,6 @@
 class GameObject {
+    static get __ENGINE_SCALE(){ return 10 };
+
     #body; #size; #image;
 
     /**
@@ -7,19 +9,21 @@ class GameObject {
      * @param {HTMLImageElement} [image]
      * @param {{
      *     isStatic?: boolean,
-     *     friction?: number
+     *     friction?: number,
+     *     rotation?: boolean
      * }|null} [options]
      */
     constructor(mass, size, image, options=null) {
-        const {isStatic, friction} = {...{
+        const {isStatic, friction, rotation} = {...{
             isStatic:false,
-            friction:0
+            friction:0,
+            rotation: false
         }, ...options};
-        this.#body = Matter.Bodies.rectangle(0, 0, size.x, size.y, {
+        this.#body = Matter.Bodies.rectangle(0, 0, size.x * GameObject.__ENGINE_SCALE, size.y * GameObject.__ENGINE_SCALE, {
             isStatic,
             friction: friction,
             frictionStatic: friction,
-            inertia: Number.POSITIVE_INFINITY
+            inertia: Number.POSITIVE_INFINITY,
         });
         this.#body.gameObject = this;
         this.#size = size;
@@ -32,9 +36,9 @@ class GameObject {
     }
 
     /** @type {Vec2} */
-    get position() { return Vec2.copy(this.#body.position) }
+    get position() { return Vec2.copy(this.#body.position).times(1 / GameObject.__ENGINE_SCALE) }
     /** @param {Vec2} pos */
-    set position(pos) { Matter.Body.setPosition(this.#body, Vec2.copy(pos)) }
+    set position(pos) { Matter.Body.setPosition(this.#body, Vec2.copy(pos).times(GameObject.__ENGINE_SCALE)) }
 
     get x() { return this.position.x }
     get y() { return this.position.y }
@@ -42,9 +46,9 @@ class GameObject {
     set y(y) { this.position = this.position.setY(y) }
 
     /** @type {Vec2} */
-    get velocity() { return Vec2.copy(Matter.Body.getVelocity(this.#body)) }
+    get velocity() { return Vec2.copy(Matter.Body.getVelocity(this.#body)).times(1 / GameObject.__ENGINE_SCALE) }
     /** @param {Vec2} v */
-    set velocity(v) { Matter.Body.setVelocity(this.#body, v) }
+    set velocity(v) { Matter.Body.setVelocity(this.#body, v.times(GameObject.__ENGINE_SCALE)) }
 
     get vx() { return this.velocity.x }
     get vy() { return this.velocity.y }
@@ -52,9 +56,9 @@ class GameObject {
     set vy(y) { this.velocity = this.velocity.setY(y) }
 
     /** @param {Vec2} f */
-    addForce(f) { Matter.Body.applyForce(this.#body, this.#body.position, f) }
+    addForce(f) { Matter.Body.applyForce(this.#body, this.#body.position, f.times(GameObject.__ENGINE_SCALE)) }
     /** @param {Vec2} f */
-    set force(f) { this.#body.force = Vec2.copy(f) }
+    set force(f) { this.#body.force = Vec2.copy(f.times(GameObject.__ENGINE_SCALE)) }
 
     /** @type {number} */
     get rotation() { return this.#body.angle }

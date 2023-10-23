@@ -1,9 +1,10 @@
 class PlayerObject extends GameObject {
-    static image = document.getElementById('guinea-img');
+    static image = document.getElementById('capy-img');
     static PLAYER_SPEED = .05;
+    static PLAYER_JUMP_SPEED = .21;
 
     constructor() {
-        super(1, new Vec2(1, 0.5), PlayerObject.image, {isStatic: false, friction: 0});
+        super(1, new Vec2(2, 1.7), PlayerObject.image, {isStatic: false});
         this.facing = 1;
     }
 
@@ -14,7 +15,7 @@ class PlayerObject extends GameObject {
     }
 
     tryJump() {
-
+        if(Math.abs(this.vy) < 0.1) this.vy = -PlayerObject.PLAYER_JUMP_SPEED
     }
 
     draw(ctx) {
@@ -38,7 +39,7 @@ class PlatformObject extends GameObject {
     }
 
     draw(ctx){
-        ctx.fillStyle = "#fac";
+        ctx.fillStyle = "#4cf";
         ctx.fillRect(-0.51, -0.51, 1.02, 1.02);
     }
 }
@@ -52,7 +53,7 @@ class BoxObject extends GameObject {
      * @param {number} y
      */
     constructor(x, y) {
-        super(1, new Vec2(1, 1), BoxObject.image);
+        super(1, new Vec2(2, 2), BoxObject.image);
         this.position = new Vec2(x, y);
     }
 }
