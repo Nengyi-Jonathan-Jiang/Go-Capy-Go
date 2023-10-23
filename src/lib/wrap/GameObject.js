@@ -98,10 +98,14 @@ class GameObject {
         return this.body.isStatic;
     }
 
-    setCollisionLayer() {
-
+    /**
+     * @param {number} layer A number from 1 to 32
+     */
+    set collisionLayer(layer) {
+        this.body.collisionFilter.category = (1 << layer);
     }
-    setCollisionMask() {
-
+    /** @param {number[]} layers The layers to collide with */
+    set collisionMask(layers) {
+        this.body.collisionFilter.mask = layers.map(i => 1 << i).reduce((a, b) => a | b, 0);
     }
 }

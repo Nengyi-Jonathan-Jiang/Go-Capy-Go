@@ -5,6 +5,7 @@ class PlayerObject extends GameObject {
     constructor() {
         super(new Vec2(.75, 0.5), PlayerObject.image, {isStatic: false, friction: 0});
         this.facing = 1;
+        this.collisionMask = [0];
     }
 
     move(direction){
@@ -54,6 +55,7 @@ class BoxObject extends GameObject {
     constructor(x, y) {
         super(new Vec2(1, 1), BoxObject.image);
         this.position = new Vec2(x, y);
+        this.collisionMask = [0];
     }
 }
 

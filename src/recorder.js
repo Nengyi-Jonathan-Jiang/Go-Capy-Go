@@ -41,19 +41,13 @@ class ShadowRecorder {
         return this.#gameObjects;
     }
 
-    startPlayback(){
+    /** @param {(GameObject)=>any} f */
+    startPlayback(f=()=>{}){
         if(this.#playing || !this.#hasRecording) return;
         this.#playing = true;
         this.#shadowGameObjects = this.#gameObjects.map(i => i.clone());
-        this.#shadowGameObjects.forEach(i => {
-            let oldDraw = i.draw;
-            i.draw = ctx => {
-                ctx.globalAlpha = 0.5;
-                oldDraw.call(i, ctx);
-                ctx.globalAlpha = 1;
-            }
-            i.makeStatic();
-        });
+        this.#shadowGameObjects.forEach(i => i.makeStatic());
+        this.#shadowGameObjects.forEach(f);
         this.#engine.add(...this.#shadowGameObjects);
     }
 

@@ -44,7 +44,16 @@ requestAnimationFrame(function frame() {
 
     if(events.keysDown['r']) {
         recorder.stopRecording();
-        recorder.startPlayback();
+        recorder.startPlayback(i => {
+            i.collisionLayer = 1;
+
+            let oldDraw = i.draw;
+            i.draw = ctx => {
+                ctx.globalAlpha = 0.5;
+                oldDraw.call(i, ctx);
+                ctx.globalAlpha = 1;
+            }
+        });
     }
 
     if(!recorder.hasRecording) {
