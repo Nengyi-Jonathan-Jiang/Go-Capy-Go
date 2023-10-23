@@ -2,19 +2,19 @@ class GameObject {
     static get __ENGINE_SCALE(){ return 10 };
 
     #body; #size; #image;
+    #collisionLayer;
+    #collisionMask;
 
     /**
-     * @param {number} mass
      * @param {Vec2} size
      * @param {HTMLImageElement} [image]
      * @param {{
      *     isStatic?: boolean,
-     *     friction?: number,
-     *     rotation?: boolean
+     *     friction?: number
      * }|null} [options]
      */
-    constructor(mass, size, image, options=null) {
-        const {isStatic, friction, rotation} = {...{
+    constructor(size, image, options = null) {
+        const {isStatic, friction} = {...{
             isStatic:false,
             friction:0,
             rotation: false
@@ -33,6 +33,7 @@ class GameObject {
         this.velocity = Vec2.zero;
         this.rotation = 0;
         this.angularVelocity = 0;
+        this.collisionLayer = 0;
     }
 
     /** @type {Vec2} */
@@ -79,5 +80,52 @@ class GameObject {
     /** @param {CanvasRenderingContext2D} ctx */
     draw(ctx){
         ctx.drawImage(this.image, -0.5, -0.5, 1, 1);
+    }
+
+
+    clone() {
+        const clonedBody = structuredClone(this.#body);
+        const newObj = new GameObject(Vec2.copy(this.#size), this.#image);
+        Object.assign(newObj, this);
+        Object.setPrototypeOf(newObj, Object.getPrototypeOf(this));
+        clonedBody.gameObject = newObj;
+        newObj.#body = clonedBody;
+        return newObj;
+    }
+
+    makeStatic() {
+        this.body.isStatic = true;
+    }
+    makeNotStatic() {
+        this.body.isStatic = false;
+    }
+
+    get isStatic() {
+        return this.body.isStatic;
+    }
+
+    /**
+     * @param {number} layer A number from 1 to 32
+     */
+    set collisionLayer(layer) {
+        this.body.collisionFilter.category = (1 << layer);
+        this.#collisionLayer = layer;
+    }
+
+    /** @type {number} */
+    get collisionLayer() { return this.#collisionLayer }
+
+    /** @param {number[]} layers The layers to collide with */
+    set collisionMask(layers) {
+        this.body.collisionFilter.mask = layers.map(i => 1 << i).reduce((a, b) => a | b, 0);
+        this.#collisionMask = layers;
+    }
+
+    /** @type {number[]} */
+    get collisionMask() { return this.#collisionMask }
+
+    /** @param {GameObject} other */
+    isCollidingWith(other) {
+        return Matter.Bounds.overlaps(this.body.bounds, other.body.bounds);
     }
 }

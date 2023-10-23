@@ -3,7 +3,7 @@ class Renderer {
     constructor(canvasEl) {
         this.canvas = canvasEl;
         this.ctx = canvasEl.getContext('2d');
-        this.scale = new Vec2(32, 18);
+        this.scale = new Vec2(16, 9);
     }
 
     resize() {
@@ -19,7 +19,7 @@ class Renderer {
         ctx.clearRect(0, 0, ...this.scale);
         for(let gameObject of engine.gameObjects){
             ctx.save();
-            ctx.translate(gameObject.position.x, gameObject.position.y);
+            ctx.translate(...gameObject.position);
             ctx.rotate(gameObject.rotation);
             ctx.scale(gameObject.size.x, gameObject.size.y)
 

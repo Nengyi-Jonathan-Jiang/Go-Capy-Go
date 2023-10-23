@@ -1,40 +1,50 @@
-const engine = new GameEngine();
-
-{
-    engine.add(new PlatformObject(0, 0, 32, 1));
-    engine.add(new PlatformObject(0, 17, 32, 1));
-    engine.add(new PlatformObject(0, 1, 1, 16));
-    engine.add(new PlatformObject(31, 1, 1, 16));
-
-    engine.add(new PlatformObject(6, 1, 1, 2));
-    engine.add(new PlatformObject(3, 5, 2));
-}
-
-const player = new PlayerObject();
-player.position = new Vec2(1.5, 1.5);
-engine.add(player);
-
-engine.add(new BoxObject(4, 2));
-engine.add(new BoxObject(4, 4));
-
 const renderer = new Renderer(document.getElementById('game-canvas'));
 window.onresize = (f => (f(), f))(() => renderer.resize());
 
+const levels = [
+    new Level(function(level, player, berry){
+
+    }),
+    new Level(function(level, player, berry){
+        level.addBoxAt(5.5, 7.5);
+        level.addBoxAt(7.5, 7.5);
+        level.addBoxAt(9.5, 7.5);
+    }),
+    new Level(function(level, player, berry){
+        level.addPlatformAt(9, 5.5, 1, 3);
+
+        level.addPlatformAt(4, 6, 1, 1);
+        level.addBoxAt(4.5, 5.5);
+    }, function(level) {
+        level.addPumpkinAt(1.5, 5.5);
+    }),
+    new Level(function(level, player, berry){
+        level.addPlatformAt(4, 1, 1, 1);
+        level.addPlatformAt(2, 3, 1, 1);
+
+        level.addBoxAt(new BoxObject(2.5, 2));
+
+        player.position = new Vec2(1.5, 1.5);
+        berry.position = new Vec2(4.5, 7.5);
+    }, function(level) {
+        level.addPumpkinAt(2.5, 7);
+    }),
+]
+
+let i = 0;
+
+document.getElementById('restart').onmousedown = _ => levels[i].reset();
+
 requestAnimationFrame(function frame() {
-    renderer.render(engine);
-    engine.update();
-
-    if(events.keysDown['arrowleft']){
-        player.move(-1)
+    const level = levels[i];
+    level.updateAndRender(renderer);
+    if(level.isWon) {
+        i++;
+        levels[i].reset();
     }
-    else if(events.keysDown['arrowright']){
-        player.move(1)
+    if(i >= levels.length) {
+        alert('You beat the game');
+        return;
     }
-    else player.move(0);
-
-    if(events.keysDown[' ']){
-        player.tryJump();
-    }
-
     requestAnimationFrame(frame);
 })

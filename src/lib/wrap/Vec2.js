@@ -24,6 +24,8 @@ class Vec2 {
      */
     static fromArray([x, y]){ return new Vec2(x, y) }
 
+    get plainObject() { return {x: this[0], y: this[1] }}
+
     /** @type {number} */
     get x() { return this[0] }
     /** @param {number} x */
