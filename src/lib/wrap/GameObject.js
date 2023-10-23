@@ -15,7 +15,7 @@ class GameObject {
             isStatic:false,
             friction:0
         }, ...options};
-        this.#body = Matter.Bodies.rectangle(0, 0, size.x, size.y, {
+        this.#body = Matter.Bodies.rectangle(0, 0, size.x * 100, size.y * 100, {
             isStatic,
             friction: friction,
             frictionStatic: friction,
@@ -32,9 +32,9 @@ class GameObject {
     }
 
     /** @type {Vec2} */
-    get position() { return Vec2.copy(this.#body.position) }
+    get position() { return Vec2.copy(this.#body.position).times(.01) }
     /** @param {Vec2} pos */
-    set position(pos) { Matter.Body.setPosition(this.#body, Vec2.copy(pos)) }
+    set position(pos) { Matter.Body.setPosition(this.#body, Vec2.copy(pos).times(100).plainObject) }
 
     get x() { return this.position.x }
     get y() { return this.position.y }
@@ -42,9 +42,9 @@ class GameObject {
     set y(y) { this.position = this.position.setY(y) }
 
     /** @type {Vec2} */
-    get velocity() { return Vec2.copy(Matter.Body.getVelocity(this.#body)) }
+    get velocity() { return Vec2.copy(Matter.Body.getVelocity(this.#body)).times(.01) }
     /** @param {Vec2} v */
-    set velocity(v) { Matter.Body.setVelocity(this.#body, v) }
+    set velocity(v) { Matter.Body.setVelocity(this.#body, v.times(100).plainObject) }
 
     get vx() { return this.velocity.x }
     get vy() { return this.velocity.y }
@@ -75,5 +75,17 @@ class GameObject {
     /** @param {CanvasRenderingContext2D} ctx */
     draw(ctx){
         ctx.drawImage(this.image, -0.5, -0.5, 1, 1);
+    }
+
+
+    clone() {
+        var clonedBody = structuredClone(this.#body);
+        var newObj = new GameObject(this);
+        Object.assign(newObj, this);
+        Object.setPrototypeOf(newObj, Object.getPrototypeOf(this));
+        clonedBody.gameObject = newObj;
+        newObj.#body = clonedBody;
+        newObj.#image = this.#image;
+        newObj.#size = Vec2.copy(this.#size);
     }
 }

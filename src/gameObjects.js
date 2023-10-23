@@ -3,7 +3,7 @@ class PlayerObject extends GameObject {
     static PLAYER_SPEED = .05;
 
     constructor() {
-        super(1, new Vec2(1, 0.5), PlayerObject.image, {isStatic: false, friction: 0});
+        super(1, new Vec2(.75, 0.5), PlayerObject.image, {isStatic: false, friction: 0});
         this.facing = 1;
     }
 
@@ -54,5 +54,25 @@ class BoxObject extends GameObject {
     constructor(x, y) {
         super(1, new Vec2(1, 1), BoxObject.image);
         this.position = new Vec2(x, y);
+    }
+}
+
+class PumpkinObject extends GameObject {
+    static image = document.getElementById('pump-img');
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    constructor(x, y) {
+        super(1, new Vec2(1, 0.8), PumpkinObject.image, {isStatic: true});
+        this.body.isSensor = true;
+        this.position = new Vec2(x, y);
+    }
+
+    draw(ctx) {
+        ctx.globalAlpha = Math.sin(Date.now() / 200) * 0.2 + 0.6;
+        super.draw(ctx);
+        ctx.globalAlpha = 1;
     }
 }

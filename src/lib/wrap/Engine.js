@@ -3,7 +3,7 @@ class GameEngine {
 
     constructor() {
         const engine = this.#engine = Matter.Engine.create();
-        engine.gravity.scale = .00003;
+        engine.gravity.scale = .003;
     }
 
     update(deltaTime=16.6666) {

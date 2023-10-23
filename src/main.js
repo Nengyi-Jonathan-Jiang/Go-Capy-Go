@@ -10,6 +10,8 @@ const engine = new GameEngine();
     engine.add(new PlatformObject(2, 3));
 }
 
+engine.add(new PumpkinObject(2.5, 7));
+
 const player = new PlayerObject();
 player.position = new Vec2(1.5, 1.5);
 engine.add(player);
@@ -32,7 +34,7 @@ requestAnimationFrame(function frame() {
     else player.move(0);
 
     if(events.keysDown[' ']){
-        player.vy = -0.2;
+        player.vy = -0.1;
     }
 
     requestAnimationFrame(frame);
