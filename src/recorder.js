@@ -23,12 +23,15 @@ class ShadowRecorder {
             this.#frames.push(this.#gameObjects.map(i => i.position))
         }
         if(this.#playing) {
-            let currFrame = this.#frames[this.#currFrameIndex++];
-            for(let i = 0; i < this.#shadowGameObjects.length; i++){
-                this.#shadowGameObjects[i].position = currFrame[i];
-            }
             if(this.#currFrameIndex >= this.#frames.length) {
-                this.reset();
+                this.#playing = false;
+                this.#engine.remove(...this.#shadowGameObjects);
+            }
+            else {
+                let currFrame = this.#frames[this.#currFrameIndex++];
+                for(let i = 0; i < this.#shadowGameObjects.length; i++){
+                    this.#shadowGameObjects[i].position = currFrame[i];
+                }
             }
         }
     }
@@ -41,14 +44,21 @@ class ShadowRecorder {
         return this.#gameObjects;
     }
 
-    /** @param {(GameObject)=>any} f */
-    startPlayback(f=()=>{}){
-        if(this.#playing || !this.#hasRecording) return;
+    /** @param {(GameObject)=>GameObject} f */
+    startPlayback(f=(i=>i)){
+        if(!this.#hasRecording) return;
         this.#playing = true;
-        this.#shadowGameObjects = this.#gameObjects.map(i => i.clone());
+        this.#shadowGameObjects = this.#gameObjects.map(i => i.clone()).map(f);
         this.#shadowGameObjects.forEach(i => i.makeStatic());
-        this.#shadowGameObjects.forEach(f);
+
+        this.restartPlayback();
+    }
+
+    restartPlayback(){
+        if(!this.#hasRecording) return;
+        this.#engine.remove(...this.#shadowGameObjects);
         this.#engine.add(...this.#shadowGameObjects);
+        this.#currFrameIndex = 0;
     }
 
     reset() {

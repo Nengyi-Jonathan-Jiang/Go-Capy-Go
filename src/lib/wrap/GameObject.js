@@ -1,5 +1,7 @@
 class GameObject {
     #body; #size; #image;
+    #collisionLayer;
+    #collisionMask;
 
     /**
      * @param {Vec2} size
@@ -28,6 +30,7 @@ class GameObject {
         this.velocity = Vec2.zero;
         this.rotation = 0;
         this.angularVelocity = 0;
+        this.collisionLayer = 0;
     }
 
     /** @type {Vec2} */
@@ -103,9 +106,23 @@ class GameObject {
      */
     set collisionLayer(layer) {
         this.body.collisionFilter.category = (1 << layer);
+        this.#collisionLayer = layer;
     }
+
+    /** @type {number} */
+    get collisionLayer() { return this.#collisionLayer }
+
     /** @param {number[]} layers The layers to collide with */
     set collisionMask(layers) {
         this.body.collisionFilter.mask = layers.map(i => 1 << i).reduce((a, b) => a | b, 0);
+        this.#collisionMask = layers;
+    }
+
+    /** @type {number[]} */
+    get collisionMask() { return this.#collisionMask }
+
+    /** @param {GameObject} other */
+    isCollidingWith(other) {
+        return Matter.Bounds.overlaps(this.body.bounds, other.body.bounds);
     }
 }

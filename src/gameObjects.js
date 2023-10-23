@@ -1,32 +1,24 @@
-class PlayerObject extends GameObject {
-    static image = document.getElementById('guinea-img');
-    static PLAYER_SPEED = .05;
+class BerryObject extends GameObject {
+    static image = document.getElementById('berry-img');
 
-    constructor() {
-        super(new Vec2(.75, 0.5), PlayerObject.image, {isStatic: false, friction: 0});
-        this.facing = 1;
-        this.collisionMask = [0];
-    }
-
-    move(direction){
-        this.vx = direction * PlayerObject.PLAYER_SPEED;
-        if(direction !== 0) this.facing = direction;
-        this.position = this.position.plus(new Vec2(direction * 0.001, 0));
-    }
-
-    tryJump() {
-
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    constructor(x, y) {
+        super(new Vec2(0.65, 0.7), BerryObject.image, {isStatic: true});
+        this.position = new Vec2(x, y);
+        this.collisionLayer = 31;
     }
 
     draw(ctx) {
-        ctx.scale(this.facing, 1);
+        let dy = Math.sin(Date.now() / 1000) * 0.1;
+        ctx.translate(0, dy)
         super.draw(ctx);
     }
 }
 
 class PlatformObject extends GameObject {
-    static image = document.getElementById('box-img');
-
     /**
      * @param {number} x
      * @param {number} y

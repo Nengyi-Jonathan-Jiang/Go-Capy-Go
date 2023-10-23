@@ -16,10 +16,10 @@ class Renderer {
     /** @param {GameEngine} engine */
     render(engine){
         const ctx = this.ctx;
-        ctx.clearRect(0, 0, 16, 9);
+        ctx.clearRect(0, 0, this.scale.x, this.scale.y);
         for(let gameObject of engine.gameObjects){
             ctx.save();
-            ctx.translate(gameObject.position.x, gameObject.position.y);
+            ctx.translate(...gameObject.position);
             ctx.rotate(gameObject.rotation);
             ctx.scale(gameObject.size.x, gameObject.size.y)
 
