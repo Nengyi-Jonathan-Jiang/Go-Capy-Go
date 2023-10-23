@@ -3,7 +3,7 @@ class PlayerObject extends GameObject {
     static PLAYER_SPEED = .05;
 
     constructor() {
-        super(1, new Vec2(.75, 0.5), PlayerObject.image, {isStatic: false, friction: 0});
+        super(new Vec2(.75, 0.5), PlayerObject.image, {isStatic: false, friction: 0});
         this.facing = 1;
     }
 
@@ -33,12 +33,12 @@ class PlatformObject extends GameObject {
      * @param sy
      */
     constructor(x, y, sx=1, sy=1) {
-        super(1, new Vec2(sx, sy), null, {isStatic: true, friction: 0.1});
+        super(new Vec2(sx, sy), null, {isStatic: true, friction: 0.1});
         this.position = new Vec2(x + sx/2, y + sy/2);
     }
 
     draw(ctx){
-        ctx.fillStyle = "#fac";
+        ctx.fillStyle = "#4cf";
         ctx.fillRect(-0.51, -0.51, 1.02, 1.02);
     }
 }
@@ -52,7 +52,7 @@ class BoxObject extends GameObject {
      * @param {number} y
      */
     constructor(x, y) {
-        super(1, new Vec2(1, 1), BoxObject.image);
+        super(new Vec2(1, 1), BoxObject.image);
         this.position = new Vec2(x, y);
     }
 }
@@ -65,7 +65,7 @@ class PumpkinObject extends GameObject {
      * @param {number} y
      */
     constructor(x, y) {
-        super(1, new Vec2(1, 0.8), PumpkinObject.image, {isStatic: true});
+        super(new Vec2(1, 0.8), PumpkinObject.image, {isStatic: true});
         this.body.isSensor = true;
         this.position = new Vec2(x, y);
     }

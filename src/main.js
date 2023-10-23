@@ -21,7 +21,12 @@ engine.add(new BoxObject(2.5, 2));
 const renderer = new Renderer(document.getElementById('game-canvas'));
 window.onresize = (f => (f(), f))(() => renderer.resize());
 
+const recorder = new ShadowRecorder();
+
+recorder.startRecording(engine);
+
 requestAnimationFrame(function frame() {
+    recorder.update();
     renderer.render(engine);
     engine.update();
 
@@ -35,6 +40,15 @@ requestAnimationFrame(function frame() {
 
     if(events.keysDown[' ']){
         player.vy = -0.1;
+    }
+
+    if(events.keysDown['r']) {
+        recorder.stopRecording();
+        recorder.startPlayback();
+    }
+
+    if(!recorder.hasRecording) {
+        recorder.startRecording(engine);
     }
 
     requestAnimationFrame(frame);

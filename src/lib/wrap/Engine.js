@@ -15,6 +15,11 @@ class GameEngine {
         Matter.Composite.add(this.#engine.world, objects.map(i => i.body));
     }
 
+    /** @param {GameObject} objects */
+    remove(...objects){
+        objects.forEach(i => Matter.Composite.removeBody(this.world, i.body, true));
+    }
+
     /** @type {GameObject[]} */
     get gameObjects() {
         return Matter.Composite.allBodies(this.#engine.world).map(i => i.gameObject);

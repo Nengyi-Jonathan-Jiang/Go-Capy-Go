@@ -2,7 +2,6 @@ class GameObject {
     #body; #size; #image;
 
     /**
-     * @param {number} mass
      * @param {Vec2} size
      * @param {HTMLImageElement} [image]
      * @param {{
@@ -10,7 +9,7 @@ class GameObject {
      *     friction?: number
      * }|null} [options]
      */
-    constructor(mass, size, image, options=null) {
+    constructor(size, image, options = null) {
         const {isStatic, friction} = {...{
             isStatic:false,
             friction:0
@@ -79,13 +78,30 @@ class GameObject {
 
 
     clone() {
-        var clonedBody = structuredClone(this.#body);
-        var newObj = new GameObject(this);
+        const clonedBody = structuredClone(this.#body);
+        const newObj = new GameObject(Vec2.copy(this.#size), this.#image);
         Object.assign(newObj, this);
         Object.setPrototypeOf(newObj, Object.getPrototypeOf(this));
         clonedBody.gameObject = newObj;
         newObj.#body = clonedBody;
-        newObj.#image = this.#image;
-        newObj.#size = Vec2.copy(this.#size);
+        return newObj;
+    }
+
+    makeStatic() {
+        this.body.isStatic = true;
+    }
+    makeNotStatic() {
+        this.body.isStatic = false;
+    }
+
+    get isStatic() {
+        return this.body.isStatic;
+    }
+
+    setCollisionLayer() {
+
+    }
+    setCollisionMask() {
+
     }
 }
