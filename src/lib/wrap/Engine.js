@@ -1,5 +1,6 @@
 class GameEngine {
     #engine;
+    static STEP_RESOLUTION = 6;
 
     constructor() {
         const engine = this.#engine = Matter.Engine.create();
@@ -8,8 +9,10 @@ class GameEngine {
         engine.velocityIterations *= 2;
     }
 
-    update(deltaTime=16.6666) {
-        Matter.Engine.update(this.#engine, deltaTime);
+    update(deltaTime = 16.6666666) {
+        for(let i = 0; i < GameEngine.STEP_RESOLUTION; i++){
+            Matter.Engine.update(this.#engine, deltaTime / GameEngine.STEP_RESOLUTION);
+        }
     }
 
     /** @param {GameObject} objects */

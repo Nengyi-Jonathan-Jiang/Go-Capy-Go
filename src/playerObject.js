@@ -28,7 +28,7 @@ class PlayerObject extends GameObject {
     /** @param {GameEngine} engine */
     tryJump(engine) {
         if(this.isGrounded(engine)){
-            this.vy -= 0.2;
+            this.vy = -0.2;
         }
     }
 

@@ -90,8 +90,6 @@ class Level {
         this.engine.add(new BoxObject(x, y));
     }
 
-    wasRestartHeld = false;
-
     /**
      * @param {Renderer} renderer
      */
@@ -108,7 +106,7 @@ class Level {
         }
         else this.player.move(0);
 
-        if(events.keysPressed[' ']){
+        if(events.keysDown[' ']){
             this.player.tryJump(this.engine);
         }
 
