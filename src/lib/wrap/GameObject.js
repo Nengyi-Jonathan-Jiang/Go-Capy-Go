@@ -24,6 +24,7 @@ class GameObject {
             friction: friction,
             frictionStatic: friction,
             inertia: Number.POSITIVE_INFINITY,
+            restitution: 0
         });
         this.#body.gameObject = this;
         this.#size = size;

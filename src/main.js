@@ -11,7 +11,15 @@ const levels = [
         level.addBoxAt(9.5, 7.5);
     }),
     new Level(document.getElementById("level-1-background"), function(level, player, berry){
-        level.addPlatformAt(9, 5, 1, 3);
+        level.addPlatformAt(9, 4.5, 1, 5);
+
+        level.addPlatformAt(4, 6.25, 2, .5);
+        level.addBoxAt(4, 5.75);
+    }, function(level) {
+        level.addPumpkinAt(1.5, 5.5);
+    }),
+    new Level(document.getElementById("level-1-background"), function(level, player, berry){
+        level.addPlatformAt(9, 3.5, 1, 7);
 
         level.addPlatformAt(4, 6.25, 2, .5);
         level.addBoxAt(4, 5.75);

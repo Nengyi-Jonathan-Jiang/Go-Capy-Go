@@ -8,7 +8,7 @@ class PlayerObject extends GameObject {
         this.facing = 1;
         this.collisionMask = [0, 1];
 
-        this.sensor = new GameObject(new Vec2(1, .01), null);
+        this.sensor = new GameObject(new Vec2(0.9, .01), null);
     }
 
     /** @param {GameEngine} engine */

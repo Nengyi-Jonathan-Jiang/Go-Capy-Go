@@ -4,6 +4,8 @@ class GameEngine {
     constructor() {
         const engine = this.#engine = Matter.Engine.create();
         engine.gravity.scale = .003 / GameObject.__ENGINE_SCALE;
+        engine.positionIterations *= 2;
+        engine.velocityIterations *= 2;
     }
 
     update(deltaTime=16.6666) {

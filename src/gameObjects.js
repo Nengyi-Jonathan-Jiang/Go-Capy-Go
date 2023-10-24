@@ -46,6 +46,7 @@ class BoxObject extends GameObject {
      */
     constructor(x, y) {
         super(new Vec2(1, 1), BoxObject.image);
+        Matter.Body.setMass(this.body, 0.01);
         this.position = new Vec2(x, y);
         this.collisionMask = [0];
     }
