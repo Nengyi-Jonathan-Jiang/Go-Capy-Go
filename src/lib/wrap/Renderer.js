@@ -13,10 +13,17 @@ class Renderer {
         )
     }
 
-    /** @param {GameEngine} engine */
-    render(engine){
+    /** @param {GameEngine} engine
+     * @param {HTMLImageElement} background
+     */
+    render(engine, background=null){
         const ctx = this.ctx;
-        ctx.clearRect(0, 0, ...this.scale);
+        if(background !== null) {
+            ctx.drawImage(background, 0, 0, this.scale.x, this.scale.y);
+        }
+        else {
+            ctx.clearRect(0, 0, ...this.scale);
+        }
         for(let gameObject of engine.gameObjects){
             ctx.save();
             ctx.translate(...gameObject.position);

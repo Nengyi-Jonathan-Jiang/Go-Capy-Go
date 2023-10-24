@@ -1,10 +1,12 @@
 class Level {
     /**
+     * @param {HTMLImageElement} background
      * @param {(level: Level, player: GameObject, berry: GameObject)=>any} onRestart
      * @param {(level: Level)=>any} [onLoad]
      * @param {(level: Level)=>any} [onUpdate]
      */
-    constructor(onRestart, onLoad, onUpdate) {
+    constructor(background, onRestart, onLoad, onUpdate) {
+        this.background = background;
         this.engine = new GameEngine();
         this.recorders = [new ShadowRecorder(), new ShadowRecorder(), new ShadowRecorder()];
 
@@ -27,6 +29,7 @@ class Level {
     }
 
     reset() {
+        this.recorders.forEach(i => i.reset());
         this.engine.remove(...this.engine.gameObjects);
         this.onLoad(this);
         this.persistentObjects = this.engine.gameObjects;
@@ -95,7 +98,7 @@ class Level {
     updateAndRender(renderer) {
         this.recorders.forEach(i => i.update());
         this.engine.update();
-        renderer.render(this.engine);
+        renderer.render(this.engine, this.background);
 
         if(events.keysDown['a']){
             this.player.move(-1)

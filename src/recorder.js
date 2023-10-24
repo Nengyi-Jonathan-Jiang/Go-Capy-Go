@@ -65,7 +65,7 @@ class ShadowRecorder {
         this.#currFrameIndex = 0;
         this.#frames = []
 
-        if(this.#hasRecording) {
+        if(this.#engine && this.#shadowGameObjects) {
             this.#engine.remove(...this.#shadowGameObjects);
         }
 
