@@ -1,7 +1,7 @@
 class PlayerObject extends GameObject {
     static image = document.getElementById('guinea-img');
     static PLAYER_SPEED = .05;
-    static PLAYER_JUMP_SPEED = 0.2;
+    static PLAYER_JUMP_SPEED = 0.19;
 
     constructor() {
         super(new Vec2(1, 0.85), PlayerObject.image, {isStatic: false, friction: 0});
@@ -28,7 +28,7 @@ class PlayerObject extends GameObject {
     /** @param {GameEngine} engine */
     tryJump(engine) {
         if(this.isGrounded(engine)){
-            this.vy = -0.2;
+            this.vy = -PlayerObject.PLAYER_JUMP_SPEED;
         }
     }
 

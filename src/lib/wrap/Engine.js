@@ -12,6 +12,7 @@ class GameEngine {
     update(deltaTime = 16.6666666) {
         for(let i = 0; i < GameEngine.STEP_RESOLUTION; i++){
             Matter.Engine.update(this.#engine, deltaTime / GameEngine.STEP_RESOLUTION);
+            this.gameObjects.forEach(i => i.update(this, deltaTime / GameEngine.STEP_RESOLUTION));
         }
     }
 
