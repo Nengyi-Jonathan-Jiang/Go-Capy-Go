@@ -26,7 +26,7 @@ class GameObject {
             frictionAir: 0,
             inertia: Number.POSITIVE_INFINITY,
             restitution: 0,
-            slop: 0.002
+            slop: 0.002,
         });
         this.#body.gameObject = this;
         this.#size = size;

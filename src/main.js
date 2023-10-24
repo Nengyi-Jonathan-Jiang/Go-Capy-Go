@@ -3,7 +3,7 @@ window.onresize = (f => (f(), f))(() => renderer.resize());
 
 const levels = [
     new Level(document.getElementById("level-1-background"), function(level, player, berry){}),
-    new Level(document.getElementById("level-1-background"), function(level, player, berry){
+    new Level(document.getElementById("level-2-background"), function(level, player, berry){
         level.addPlatformAt(7.5, 1, 1, 5);
 
         let buttonObject = new ButtonObject(1.5, 8, level.engine);

@@ -42,10 +42,10 @@ class Level {
         engine.remove(...engine.gameObjects.filter(i => !this.persistentObjects.includes(i)));
         this.player.position = new Vec2(1.5, 7.5);
         this.berry.position = new Vec2(14.5, 7.5);
-        engine.add(new PlatformObject(0, 0, 16, 1));
-        engine.add(new PlatformObject(0, 8, 16, 1));
-        engine.add(new PlatformObject(0, 0, 1, 16));
-        engine.add(new PlatformObject(15, 0, 1, 16));
+        engine.add(new PlatformObject(8, 0.5, 16, 1));
+        engine.add(new PlatformObject(8, 8.5, 16, 1));
+        engine.add(new PlatformObject(0.5, 4.5, 1, 16));
+        engine.add(new PlatformObject(15.5, 4.5, 1, 16));
         this.generate(this, this.player, this.berry);
         engine.add(this.berry, this.player);
     }

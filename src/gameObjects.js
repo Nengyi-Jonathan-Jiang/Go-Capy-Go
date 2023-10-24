@@ -28,7 +28,7 @@ class PlatformObject extends GameObject {
      */
     constructor(x, y, sx=1, sy=1) {
         super(new Vec2(sx, sy), null, {isStatic: true, friction: 0.1});
-        this.position = new Vec2(x + sx/2, y + sy/2);
+        this.position = new Vec2(x, y);
     }
 
     draw(ctx){
