@@ -122,7 +122,7 @@ class DoorObject extends GameObject {
 
     draw(ctx){
         ctx.fillStyle = this.color;
-        ctx.fillRect(-0.51, -0.51, 1.02, 1.02);
+        ctx.fillRect(-0.5, -0.5, 1, 1);
     }
 }
 

@@ -4,7 +4,7 @@ window.onresize = (f => (f(), f))(() => renderer.resize());
 const levels = [
     new Level(document.getElementById("level-1-background"), function(level, player, berry){}),
     new Level(document.getElementById("level-2-background"), function(level, player, berry){
-        level.addPlatformAt(7.5, 1, 1, 5);
+        level.addPlatformAt(8, 3.5, 1, 5);
 
         let buttonObject = new ButtonObject(1.5, 8, level.engine);
         level.engine.add(buttonObject);
@@ -12,11 +12,36 @@ const levels = [
         level.engine.add(doorObject);
         doorObject.link(buttonObject);
 
-        level.addPlatformAt(3, 6.25, 2, .5);
+        level.addPlatformAt(4, 6.25, 2, .5);
         level.addBoxAt(4, 5.75);
     }),
+
     new Level(document.getElementById("level-1-background"), function(level, player, berry){
-        level.addPlatformAt(7.5, 1, 1, 4);
+        level.addPlatformAt(8, 2.5, 1, 3);
+
+        level.addPlatformAt(3.5, 6.25, 1, .5);
+        level.addBoxAt(3.5, 5.5);
+        let buttonObject = new ButtonObject(1.5, 8, level.engine);
+        level.engine.add(buttonObject);
+        let doorObject = new DoorObject(8, 4.5, 1, 1, "#fac");
+        level.engine.add(doorObject);
+        doorObject.link(buttonObject);
+
+        let buttonObject2 = new ButtonObject(10, 8, level.engine);
+        level.engine.add(buttonObject2);
+        let doorObject2 = new DoorObject(11, 5.5, 1, -5, "#4fa");
+        level.engine.add(doorObject2);
+        doorObject2.link(buttonObject2);
+
+        level.addPlatformAt(12, 5.5, 1, 5);
+
+        level.addPlatformAt(8, 6.5, 1, 3);
+    }, function(level) {
+        level.addPumpkinAt(3.5, 4);
+    }),
+
+    new Level(document.getElementById("level-1-background"), function(level, player, berry){
+        level.addPlatformAt(8, 3, 1, 4);
 
         let buttonObject = new ButtonObject(1.5, 8, level.engine);
         level.engine.add(buttonObject);
@@ -27,7 +52,7 @@ const levels = [
         doorObject.link(buttonObject);
         doorObject.link(buttonObject2);
 
-        level.addPlatformAt(7.5, 6, 1, 1);
+        level.addPlatformAt(8, 6.5, 1, 1);
 
         let buttonObject3 = new ButtonObject(14.5, 8, level.engine);
         level.engine.add(buttonObject3);
@@ -35,24 +60,24 @@ const levels = [
         level.engine.add(doorObject2);
         doorObject2.link(buttonObject3);
 
-        level.addPlatformAt(3, 6.25, 2, .5);
+        level.addPlatformAt(4   , 6.25, 2, .5);
         level.addBoxAt(4, 5.75);
         level.addBoxAt(4, 4.75);
 
-        berry.y -= 2;
+        berry.y -= 3.5;
     }),
     new Level(document.getElementById("level-1-background"), function(level, player, berry){
-        level.addPlatformAt(9, 4.5, 1, 5);
+        level.addPlatformAt(9, 6.25, 1, 3.5);
 
-        level.addPlatformAt(4, 6.25, 2, .5);
-        level.addBoxAt(4, 5.75);
+        level.addPlatformAt(4.5, 6.25, 2, .5);
+        level.addBoxAt(3.5, 5.75);
     }, function(level) {
-        level.addPumpkinAt(5, 4);
+        level.addPumpkinAt(4.5, 4);
     }),
     new Level(document.getElementById("level-1-background"), function(level, player, berry){
-        level.addPlatformAt(9, 3.5, 1, 7);
+        level.addPlatformAt(9, 5.5, 1, 5);
 
-        level.addPlatformAt(4, 6.25, 2, .5);
+        level.addPlatformAt(5, 6.25, 2, .5);
         level.addBoxAt(4, 5.75);
     }, function(level) {
         level.addPumpkinAt(5, 4);
