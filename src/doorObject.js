@@ -52,7 +52,7 @@ class ButtonObject extends GameObject {
      * @param {GameEngine} engine
      */
     constructor(x, y, engine) {
-        super(new Vec2(0.8, 0.15), null, {isStatic: true});
+        super(new Vec2(0.8, 0.2), null, {isStatic: true});
         this.engine = engine;
         this.position = new Vec2(x, y);
         this.collisionLayer = 31;

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit</title>
+        <!--        <link rel="stylesheet" type="text/css" href="src/style.css">-->
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            #main {
+                position: absolute;
+                display:  flex;
+                margin:   0;
+                left:     0;
+                top:      0;
+                width:    100vw;
+                height:   100vh;
+                padding:  5px;
+            }
+
+            #input {
+                padding:       10px;
+                flex-grow:     1;
+                resize:        none;
+                margin-left:   10px;
+                font-family:   monospace;
+                outline:       1px solid black;
+                border:        0;
+                border-radius: 0;
+            }
+
+            #output {
+                display:        flex;
+                flex-direction: column;
+            }
+
+            #preview {
+                width:    800px;
+                height:   450px;
+                outline:  50px solid #4cf;
+                outline-offset: -50px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            #code {
+                flex-grow:     1;
+                outline:       1px solid black;
+                margin-bottom: 0;
+                margin-top:    10px;
+                background:    black;
+                color:         white;
+                padding:       10px;
+            }
+
+
+            .platform {
+                background-color: #4cf;
+                position:         absolute;
+            }
+
+            .box {
+                background-image: url("res/image/box.png");
+                position:         absolute;
+                width:            50px;
+                height:           50px;
+                background-size:  contain;
+            }
+
+            .button {
+                position:         absolute;
+                width:            50px;
+                height:           50px;
+                --color: #f00;
+            }
+            .button::before {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                width: 40px;
+                left: 5px;
+                height: 5px;
+                background-color: var(--color);
+            }
+            .button::after {
+                content: "";
+                position: absolute;
+                bottom: -5px;
+                width: 50px;
+                height: 5px;
+                background-color: #888;
+            }
+
+            .door {
+                position:         absolute;
+                outline: 5px solid var(--color);
+                outline-offset: -5px;
+            }
+            .door[data-invert] {
+                transform: scaleY(-1);
+            }
+            .door[data-invert]::after {
+                animation-name: door-animate-invert;
+            }
+            .door::after {
+                position: absolute;
+                content: "";
+                width: 100%;
+                background-color: var(--color);
+                animation: door-animate 2s infinite;
+            }
+
+            @keyframes door-animate {
+                0% { height: 100% }
+                100% {height: 0 }
+            }
+            @keyframes door-animate-invert {
+                0% { height: 0 }
+                100% {height: 100% }
+            }
+        </style>
+    </head>
+    <body>
+        <div style="display: none">
+            <img src="res/image/capy.png" alt="" id="capy-img">
+            <img src="res/image/mara.png" alt="" id="mara-img">
+            <img src="res/image/guinea.png" alt="" id="guinea-img">
+            <img src="res/image/box.png" alt="" id="box-img">
+            <img src="res/image/pump.png" alt="" id="pump-img">
+            <img src="res/image/berry.png" alt="" id="berry-img">
+            <img src="res/image/level/1.png" alt="" id="level-1-background">
+            <img src="res/image/level/2.png" alt="" id="level-2-background">
+        </div>
+        <div id="main">
+            <div id="output">
+                <div id="preview">
+
+                </div>
+                <pre id="code">new Level(document.getElementById(""), function(level, player, berry){
+
+}),</pre>
+            </div>
+            <!--suppress HtmlFormInputWithoutLabel -->
+            <textarea id="input">control #fac
+button #fac 0 6
+platform 2 5 2 0.5
+platform 6 0 1 5
+door 0 6 5 1 2
+control #4fc
+button #4fc 8 6
+door 1 9 2 1 -5
+platform 10 2 1 5
+box 2.5 4</textarea>
+        </div>
+        <script>
+            let i = document.getElementById('input')
+            i.oninput = i.onchange = (f => (f({target: i}), f))(/** @param {string} value */({target: {value}}) => {
+                /** @type {{x:number,y:number,w:number,h:number}[]} */
+                let platforms = [];
+                /** @type {{x:number,y:number}[]} */
+                let boxes = [];
+                /** @type {{
+                 *      buttons: {x: number, y:number}[],
+                 *      doors:   {x:number, y:number, w:number, h:number}[],
+                 *      color:   string
+                 *  }[]} */
+                let controls = [];
+                /** @type {{x:number,y:number}[]} */
+                let pumpkins = [];
+                for (let line of value.split(/\s*\n\s*/g).map(j => j.trim())) {
+                    let [command, ...params] = line.trim().split(/\s+/);
+                    try {
+                        switch (command) {
+                            case "platform" : {
+                                let [x, y, w, h] = params.map(i => +i);
+                                platforms.push({x, y, w, h});
+                            } break;
+                            case "box" : {
+                                let [x, y] = params.map(i => +i);
+                                boxes.push({x, y});
+                            } break;
+                            case "pumpkin" : {
+                                let [x, y] = params.map(i => +i);
+                                pumpkins.push({x, y});
+                            } break;
+                            case "control" : {
+                                controls.push({doors: [], buttons: [], color: params[0]});
+                            } break;
+                            case "button" : {
+                                let [color, ...rest] = params;
+                                let [x, y] = rest.map(i => +i);
+                                controls.find(({color: controlColor}) => controlColor === color).buttons.push({x, y});
+                            } break;
+                            case "door" : {
+                                let [index, x, y, w, h] = params.map(i => +i);
+                                controls[index].doors.push({x, y, w, h});
+                            } break;
+                        }
+                    } catch (e) { }
+                }
+
+                let preview = document.getElementById('preview');
+
+                let code = '';
+                let p_code = '';
+                while (preview.firstChild) preview.removeChild(preview.firstChild);
+                for (let {x, y, w, h} of platforms) {
+                    let p = document.createElement('div');
+                    p.className = 'platform';
+                    p.style.setProperty('left', 50 + x * 50 + 'px');
+                    p.style.setProperty('top', 50 + y * 50 + 'px');
+                    p.style.setProperty('width', w * 50 + 'px');
+                    p.style.setProperty('height', h * 50 + 'px');
+                    preview.appendChild(p);
+
+                    code += `    level.addPlatformAt(${x + 1 + w / 2}, ${y + 1 + h / 2}, ${w}, ${h});\n`;
+                }
+                for (let {x, y} of boxes) {
+                    let p = document.createElement('div');
+                    p.className = 'box';
+                    p.style.setProperty('left', 50 + x * 50 + 'px');
+                    p.style.setProperty('top', 50 + y * 50 + 'px');
+                    preview.appendChild(p);
+
+                    code += `    level.addBoxAt(${x + 1.5}, ${y + 1.5});\n`;
+                }
+                // for (let {x, y} of pumpkins) {
+                //     let p = document.createElement('div');
+                //     p.className = 'pumpkin';
+                //     p.style.setProperty('left', 50 + x * 50 + 'px');
+                //     p.style.setProperty('top', 10 + y * 50 + 'px');
+                //     preview.appendChild(p);
+                //
+                //     p_code += `    level.addPumpkinAt(${x + 1.5}, ${y + .4});\n`;
+                // }
+                for (let i = 0; i < controls.length; i++) {
+                    let {buttons, doors, color} = controls[i];
+                    code += `    let doorManager${i} = level.addDoorManager("${color}");\n`;
+                    for (let {x, y, w, h} of doors) {
+                        let p = document.createElement('div');
+                        p.className = 'door';
+                        p.style.setProperty('--color', color)
+                        p.style.setProperty('left', 50 + x * 50 + 'px');
+                        p.style.setProperty('top', 50 + y * 50 + 'px');
+                        p.style.setProperty('width', w * 50 + 'px');
+                        p.style.setProperty('height', Math.abs(h * 50) + 'px');
+                        if(h < 0) p.dataset.invert = 'true';
+                        preview.appendChild(p);
+                        code += `    doorManager${i}.linkDoor(level.addDoorAt(${x + 1 + w / 2}, ${y + 1 + Math.abs(h) / 2}, ${w}, ${h}))\n`;
+                    }
+                    for (let {x, y} of buttons) {
+                        let p = document.createElement('div');
+                        p.className = 'button';
+                        p.style.setProperty('--color', color)
+                        p.style.setProperty('left', 50 + x * 50 + 'px');
+                        p.style.setProperty('top', 50 + y * 50 + 'px');
+                        preview.appendChild(p);
+                        code += `    doorManager${i}.linkButton(level.addButtonAt(${x + 1.5}, ${y + 2}))\n`;
+                    }
+                }
+
+                document.getElementById('code').innerText = `new Level(document.getElementById(""), function(level, player, berry){\n${code}}),`;
+            })
+        </script>
+    </body>
+</html>

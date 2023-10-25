@@ -4,7 +4,7 @@ class PlayerObject extends GameObject {
     static PLAYER_JUMP_SPEED = 0.19;
 
     constructor() {
-        super(new Vec2(1, 0.85), PlayerObject.image, {isStatic: false, friction: 0});
+        super(new Vec2(0.95, 0.85), PlayerObject.image, {isStatic: false, friction: 0});
         this.facing = 1;
         this.collisionMask = [0, 1];
 
