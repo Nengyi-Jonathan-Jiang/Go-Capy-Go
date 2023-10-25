@@ -47,6 +47,12 @@ class Vec2 {
     /** @param {number} s */
     times(s) { return new Vec2(this.x * s, this.y * s) }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    componentTimes(x, y) { return new Vec2(this.x * x, this.y * y) }
+
     [Symbol.iterator]() { return [this.x, this.y][Symbol.iterator]() }
 
     static get zero() { return new Vec2(0, 0) }

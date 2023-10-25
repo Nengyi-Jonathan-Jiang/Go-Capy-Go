@@ -42,10 +42,10 @@ class Level {
         engine.remove(...engine.gameObjects.filter(i => !this.persistentObjects.includes(i)));
         this.player.position = new Vec2(1.5, 7.5);
         this.berry.position = new Vec2(14.5, 7.5);
-        engine.add(new PlatformObject(0, 0, 16, 1));
-        engine.add(new PlatformObject(0, 8, 16, 1));
-        engine.add(new PlatformObject(0, 0, 1, 16));
-        engine.add(new PlatformObject(15, 0, 1, 16));
+        engine.add(new PlatformObject(8, 0.5, 16, 1));
+        engine.add(new PlatformObject(8, 8.5, 16, 1));
+        engine.add(new PlatformObject(0.5, 4.5, 1, 16));
+        engine.add(new PlatformObject(15.5, 4.5, 1, 16));
         this.generate(this, this.player, this.berry);
         engine.add(this.berry, this.player);
     }
@@ -78,19 +78,62 @@ class Level {
         }
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} w
+     * @param {number} h
+     */
     addPlatformAt(x, y, w, h) {
         this.engine.add(new PlatformObject(x, y, w, h));
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
     addPumpkinAt(x, y) {
         this.engine.add(new PumpkinObject(x, y));
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
     addBoxAt(x, y) {
         this.engine.add(new BoxObject(x, y));
     }
 
-    wasRestartHeld = false;
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} w
+     * @param {number} h
+     */
+    addDoorAt(x, y, w, h){
+        let door = new DoorObject(x, y, w, h)
+        this.engine.add(door);
+        return door;
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    addButtonAt(x, y){
+        let button = new ButtonObject(x, y, this.engine);
+        this.engine.add(button);
+        return button;
+    }
+
+    /**
+     * @param {string} color
+     */
+    addDoorManager(color){
+        let doorManager = new DoorManager(color, this.engine);
+        this.engine.add(doorManager);
+        return doorManager;
+    }
 
     /**
      * @param {Renderer} renderer
@@ -108,7 +151,7 @@ class Level {
         }
         else this.player.move(0);
 
-        if(events.keysPressed[' ']){
+        if(events.keysDown[' ']){
             this.player.tryJump(this.engine);
         }
 

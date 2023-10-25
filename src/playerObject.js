@@ -1,14 +1,14 @@
 class PlayerObject extends GameObject {
-    static image = document.getElementById('guinea-img');
+    static image = document.getElementById('capy-img');
     static PLAYER_SPEED = .05;
-    static PLAYER_JUMP_SPEED = 0.2;
+    static PLAYER_JUMP_SPEED = 0.19;
 
     constructor() {
         super(new Vec2(1, 0.85), PlayerObject.image, {isStatic: false, friction: 0});
         this.facing = 1;
         this.collisionMask = [0, 1];
 
-        this.sensor = new GameObject(new Vec2(1, .01), null);
+        this.sensor = new GameObject(new Vec2(0.9, .01), null);
     }
 
     /** @param {GameEngine} engine */
@@ -28,7 +28,7 @@ class PlayerObject extends GameObject {
     /** @param {GameEngine} engine */
     tryJump(engine) {
         if(this.isGrounded(engine)){
-            this.vy -= 0.2;
+            this.vy = -PlayerObject.PLAYER_JUMP_SPEED;
         }
     }
 
@@ -40,7 +40,7 @@ class PlayerObject extends GameObject {
 
 class ShadowPlayerObject extends GameObject {
     static image = [
-        document.getElementById('capy-img'),
+        document.getElementById('guinea-img'),
         document.getElementById('mara-img')
     ];
 

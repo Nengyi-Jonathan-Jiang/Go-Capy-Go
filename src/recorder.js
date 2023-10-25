@@ -1,7 +1,22 @@
+class ShadowRecorderFrame {
+    /** @param {GameObject} gameObject */
+    constructor(gameObject) {
+        /** @type {Vec2} */
+        this.pos = gameObject.position;
+        /** @type {Vec2} */
+        this.vel = gameObject.velocity;
+    }
+
+    /** @param {GameObject} gameObject */
+    apply(gameObject) {
+        gameObject.position = this.pos;
+    }
+}
+
 class ShadowRecorder {
     /** @type {GameObject[]} */ #gameObjects = [];
     /** @type {GameObject[]} */ #shadowGameObjects = [];
-    /** @type {Vec2[][]} */ #frames = [];
+    /** @type {ShadowRecorderFrame[][]} */ #frames = [];
     /** @type {number} */ #currFrameIndex = 0;
     /** @type {boolean} */ #recording = false;
     /** @type {boolean} */ #hasRecording = false;
@@ -20,7 +35,7 @@ class ShadowRecorder {
 
     update(){
         if(this.#recording) {
-            this.#frames.push(this.#gameObjects.map(i => i.position))
+            this.#frames.push(this.#gameObjects.map(i => new ShadowRecorderFrame(i)))
         }
         if(this.#playing) {
             if(this.#currFrameIndex >= this.#frames.length) {
@@ -30,7 +45,7 @@ class ShadowRecorder {
             else {
                 let currFrame = this.#frames[this.#currFrameIndex++];
                 for(let i = 0; i < this.#shadowGameObjects.length; i++){
-                    this.#shadowGameObjects[i].position = currFrame[i];
+                    currFrame[i].apply(this.#shadowGameObjects[i]);
                 }
             }
         }

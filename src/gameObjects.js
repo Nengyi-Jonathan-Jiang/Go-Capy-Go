@@ -6,17 +6,18 @@ class BerryObject extends GameObject {
      * @param {number} y
      */
     constructor(x, y) {
-        super(new Vec2(0.65, 0.7), BerryObject.image, {isStatic: true});
+        super(new Vec2(0.8, 0.8), BerryObject.image, {isStatic: true});
         this.position = new Vec2(x, y);
         this.collisionLayer = 31;
     }
 
     draw(ctx) {
-        let dy = Math.sin(Date.now() / 1000) * 0.1;
+        let dy = Math.sin(Date.now() / 500) * 0.05;
         ctx.translate(0, dy)
         super.draw(ctx);
     }
 }
+
 
 class PlatformObject extends GameObject {
     /**
@@ -27,12 +28,12 @@ class PlatformObject extends GameObject {
      */
     constructor(x, y, sx=1, sy=1) {
         super(new Vec2(sx, sy), null, {isStatic: true, friction: 0.1});
-        this.position = new Vec2(x + sx/2, y + sy/2);
+        this.position = new Vec2(x, y);
     }
 
     draw(ctx){
         ctx.fillStyle = "#4cf";
-        ctx.fillRect(-0.51, -0.51, 1.02, 1.02);
+        ctx.fillRect(-0.5, -0.5, 1.0, 1.0);
     }
 }
 
@@ -46,10 +47,12 @@ class BoxObject extends GameObject {
      */
     constructor(x, y) {
         super(new Vec2(1, 1), BoxObject.image);
+        Matter.Body.setMass(this.body, 0.01);
         this.position = new Vec2(x, y);
         this.collisionMask = [0];
     }
 }
+
 
 class PumpkinObject extends GameObject {
     static image = document.getElementById('pump-img');
@@ -59,7 +62,7 @@ class PumpkinObject extends GameObject {
      * @param {number} y
      */
     constructor(x, y) {
-        super(new Vec2(1, 0.8), PumpkinObject.image, {isStatic: true});
+        super(new Vec2(1, 1.2), PumpkinObject.image, {isStatic: true});
         this.body.isSensor = true;
         this.position = new Vec2(x, y);
     }
@@ -70,3 +73,5 @@ class PumpkinObject extends GameObject {
         ctx.globalAlpha = 1;
     }
 }
+
+

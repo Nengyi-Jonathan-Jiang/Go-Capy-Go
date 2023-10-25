@@ -23,7 +23,10 @@ class GameObject {
             isStatic,
             friction: friction,
             frictionStatic: friction,
+            frictionAir: 0,
             inertia: Number.POSITIVE_INFINITY,
+            restitution: 0,
+            slop: 0.002,
         });
         this.#body.gameObject = this;
         this.#size = size;
@@ -34,6 +37,11 @@ class GameObject {
         this.rotation = 0;
         this.angularVelocity = 0;
         this.collisionLayer = 0;
+    }
+
+    /** @param {HTMLImageElement} image */
+    set image(image) {
+        this.#image = image ?? this.#image ?? null;
     }
 
     /** @type {Vec2} */
@@ -72,6 +80,15 @@ class GameObject {
 
     /** @type {Vec2} */
     get size() { return Vec2.copy(this.#size) }
+    /** @param {Vec2} size */
+    set size(size) { Matter.Body.setVertices(this.body,
+        [
+            size.componentTimes(-0.5, -0.5).times(GameObject.__ENGINE_SCALE),
+            size.componentTimes(-0.5, 0.5).times(GameObject.__ENGINE_SCALE),
+            size.componentTimes(0.5, 0.5).times(GameObject.__ENGINE_SCALE),
+            size.componentTimes(0.5, -0.5).times(GameObject.__ENGINE_SCALE),
+        ]
+    ); this.#size = Vec2.copy(size) }
     /** @type {HTMLImageElement} */
     get image(){ return this.#image }
 
@@ -79,8 +96,15 @@ class GameObject {
 
     /** @param {CanvasRenderingContext2D} ctx */
     draw(ctx){
-        ctx.drawImage(this.image, -0.5, -0.5, 1, 1);
+        if(this.image !== null)
+            ctx.drawImage(this.image, -0.5, -0.5, 1, 1);
     }
+
+    /**
+     * @param {GameEngine} engine
+     * @param {number} deltaTime
+     */
+    update(engine, deltaTime){}
 
 
     clone() {
