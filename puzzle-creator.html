@@ -261,7 +261,14 @@ box 2.5 4</textarea>
                     }
                 }
 
-                document.getElementById('code').innerText = `new Level(document.getElementById(""), function(level, player, berry){\n${code}}),`;
+                let all_code = `new Level(document.getElementById(""), function(level, player, berry){\n${code}}),`;
+                document.getElementById('code').innerText = all_code;
+
+                preview.onclick = _ => {
+                    let encoded = encodeURIComponent(code)
+                    window.open(`preview-player.html?code=${encoded}`, '_blank');
+                }
+
             })
         </script>
     </body>
