@@ -1,5 +1,5 @@
 class PlayerObject extends GameObject {
-    static image = document.getElementById('guinea-img');
+    static image = document.getElementById('capy-img');
     static PLAYER_SPEED = .05;
     static PLAYER_JUMP_SPEED = 0.19;
 
@@ -40,7 +40,7 @@ class PlayerObject extends GameObject {
 
 class ShadowPlayerObject extends GameObject {
     static image = [
-        document.getElementById('capy-img'),
+        document.getElementById('guinea-img'),
         document.getElementById('mara-img')
     ];
 

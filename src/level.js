@@ -78,16 +78,61 @@ class Level {
         }
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} w
+     * @param {number} h
+     */
     addPlatformAt(x, y, w, h) {
         this.engine.add(new PlatformObject(x, y, w, h));
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
     addPumpkinAt(x, y) {
         this.engine.add(new PumpkinObject(x, y));
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
     addBoxAt(x, y) {
         this.engine.add(new BoxObject(x, y));
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} w
+     * @param {number} h
+     */
+    addDoorAt(x, y, w, h){
+        let door = new DoorObject(x, y, w, h)
+        this.engine.add(door);
+        return door;
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    addButtonAt(x, y){
+        let button = new ButtonObject(x, y, this.engine);
+        this.engine.add(button);
+        return button;
+    }
+
+    /**
+     * @param {string} color
+     */
+    addDoorManager(color){
+        let doorManager = new DoorManager(color, this.engine);
+        this.engine.add(doorManager);
+        return doorManager;
     }
 
     /**

@@ -96,7 +96,8 @@ class GameObject {
 
     /** @param {CanvasRenderingContext2D} ctx */
     draw(ctx){
-        ctx.drawImage(this.image, -0.5, -0.5, 1, 1);
+        if(this.image !== null)
+            ctx.drawImage(this.image, -0.5, -0.5, 1, 1);
     }
 
     /**
