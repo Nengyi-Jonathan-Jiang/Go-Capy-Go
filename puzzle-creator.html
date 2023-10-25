@@ -153,12 +153,12 @@
             <!--suppress HtmlFormInputWithoutLabel -->
             <textarea id="input">control #fac
 button #fac 0 6
+door #fac 6 5 1 2
 platform 2 5 2 0.5
 platform 6 0 1 5
-door 0 6 5 1 2
 control #4fc
 button #4fc 8 6
-door 1 9 2 1 -5
+door #4fc 9 2 1 -5
 platform 10 2 1 5
 box 2.5 4
 pumpkin 2.5 2</textarea>
@@ -203,8 +203,9 @@ pumpkin 2.5 2</textarea>
                                 controls.find(({color: controlColor}) => controlColor === color).buttons.push({x, y});
                             } break;
                             case "door" : {
-                                let [index, x, y, w, h] = params.map(i => +i);
-                                controls[index].doors.push({x, y, w, h});
+                                let [color, ...rest] = params;
+                                let [x, y, w, h] = rest.map(i => +i);
+                                controls.find(({color: controlColor}) => controlColor === color).doors.push({x, y, w, h});
                             } break;
                         }
                     } catch (e) { }
