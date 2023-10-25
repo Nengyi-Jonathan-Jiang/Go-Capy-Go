@@ -36,17 +36,16 @@
         <script src="src/doorObject.js"></script>
         <script src="src/playerObject.js"></script>
         <script src="src/recorder.js"></script>
-        <script src="src/level.js"></script>
+        <script src="src/game.js"></script>
         <script>
             let code = decodeURIComponent(window.location.search.split('?code=')[1]);
-            let func = new Function('level, player, berry', code)
 
             const renderer = new Renderer(document.getElementById('game-canvas'));
             window.onresize = (f => (f(), f))(() => renderer.resize());
 
-            const level = new Level(document.getElementById('level-1-background'), func);
+            const level = eval(code);
 
-            document.getElementById('restart').onmousedown = _ => levels[i].reset();
+            document.getElementById('restart').onmousedown = _ => level.reset();
 
             requestAnimationFrame(function frame() {
                 level.updateAndRender(renderer);

@@ -15,7 +15,6 @@ class DoorManager extends GameObject {
         this.linkedDoors = [];
         /** @type {{button: ButtonObject, inverted: boolean}[]} */
         this.linkedButtons = [];
-        console.log(this);
     }
 
     /**

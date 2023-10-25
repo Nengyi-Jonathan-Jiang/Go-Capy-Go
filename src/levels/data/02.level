@@ -1,0 +1,12 @@
+new Level(document.getElementById("level-1-background"), function(level, player, berry){
+    level.addPlatformAt(4, 6.25, 2, 0.5);
+    level.addPlatformAt(7.5, 3.5, 1, 5);
+    level.addPlatformAt(11.5, 5.5, 1, 5);
+    level.addBoxAt(4, 5.5);
+    let doorManager0 = level.addDoorManager("#fac");
+    doorManager0.linkDoor(level.addDoorAt(7.5, 7, 1, 2))
+    doorManager0.linkButton(level.addButtonAt(1.5, 8))
+    let doorManager1 = level.addDoorManager("#4fc");
+    doorManager1.linkDoor(level.addDoorAt(10.5, 5.5, 1, -5))
+    doorManager1.linkButton(level.addButtonAt(9.5, 8))
+})

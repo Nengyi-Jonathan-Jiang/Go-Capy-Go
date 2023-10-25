@@ -441,7 +441,7 @@ module.exports = Common;
     };
 
     /**
-     * The console logging level to use, where each level includes all levels above and excludes the levels below.
+     * The console logging level to use, where each level includes all data above and excludes the data below.
      * The default level is 'debug' which shows all console messages.  
      *
      * Possible level values are:

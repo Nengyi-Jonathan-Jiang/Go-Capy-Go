@@ -112,6 +112,14 @@
                 animation: door-animate 2s infinite;
             }
 
+            .pumpkin {
+                background-image: url("res/image/pump.png");
+                width: 50px;
+                height: 60px;
+                position: absolute;
+                background-size: contain;
+            }
+
             @keyframes door-animate {
                 0% { height: 100% }
                 100% {height: 0 }
@@ -152,7 +160,8 @@ control #4fc
 button #4fc 8 6
 door 1 9 2 1 -5
 platform 10 2 1 5
-box 2.5 4</textarea>
+box 2.5 4
+pumpkin 2.5 2</textarea>
         </div>
         <script>
             let i = document.getElementById('input')
@@ -226,15 +235,14 @@ box 2.5 4</textarea>
 
                     code += `    level.addBoxAt(${x + 1.5}, ${y + 1.5});\n`;
                 }
-                // for (let {x, y} of pumpkins) {
-                //     let p = document.createElement('div');
-                //     p.className = 'pumpkin';
-                //     p.style.setProperty('left', 50 + x * 50 + 'px');
-                //     p.style.setProperty('top', 10 + y * 50 + 'px');
-                //     preview.appendChild(p);
-                //
-                //     p_code += `    level.addPumpkinAt(${x + 1.5}, ${y + .4});\n`;
-                // }
+                for (let {x, y} of pumpkins) {
+                    let p = document.createElement('div');
+                    p.className = 'pumpkin';
+                    p.style.setProperty('left', 50 + x * 50 + 'px');
+                    p.style.setProperty('top', 40 + y * 50 + 'px');
+                    preview.appendChild(p);
+                    p_code += `    level.addPumpkinAt(${x + 1.5}, ${y + 1.4});\n`;
+                }
                 for (let i = 0; i < controls.length; i++) {
                     let {buttons, doors, color} = controls[i];
                     code += `    let doorManager${i} = level.addDoorManager("${color}");\n`;
@@ -261,14 +269,28 @@ box 2.5 4</textarea>
                     }
                 }
 
-                let all_code = `new Level(document.getElementById(""), function(level, player, berry){\n${code}}),`;
-                document.getElementById('code').innerText = all_code;
+                let all_code = `new Level(document.getElementById("level-1-background"), function(level, player, berry){\n${
+                    code
+                }}, function(level){\n${
+                    p_code
+                }})`;
+                let code_display = document.getElementById('code');
+                code_display.innerText = all_code;
 
-                preview.onclick = _ => {
-                    let encoded = encodeURIComponent(code)
-                    window.open(`preview-player.html?code=${encoded}`, '_blank');
+                code_display.oncontextmenu = e => {
+                    const range = document.createRange();
+                    range.selectNode(code_display);
+                    window.getSelection().removeAllRanges();
+                    window.getSelection().addRange(range);
+                    window.navigator.clipboard.writeText(code_display.innerText);
+                    e.preventDefault();
                 }
 
+                preview.oncontextmenu = e => {
+                    let encoded = encodeURIComponent(all_code)
+                    window.open(`preview-player.html?code=${encoded}`, '_blank');
+                    e.preventDefault();
+                }
             })
         </script>
     </body>

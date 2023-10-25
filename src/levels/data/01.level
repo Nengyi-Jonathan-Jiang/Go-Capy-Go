@@ -1,0 +1,2 @@
+new Level(document.getElementById("level-1-background"), function(level, player, berry){
+})
