@@ -46,6 +46,7 @@
             }
 
             #code {
+                width: 800px;
                 flex: 1;
                 outline: 1px solid black;
                 margin-bottom: 0;
@@ -150,7 +151,10 @@
                 <pre id="code"></pre>
             </div>
             <!--suppress HtmlFormInputWithoutLabel -->
-            <textarea id="input">control #fac
+            <textarea id="input">@name "Test Level"
+@background "level-1-background"
+
+control #fac
 button #fac 0 6
 door #fac 6 5 1 2
 platform 2 5 2 0.5
@@ -177,6 +181,10 @@ pumpkin 2.5 2</textarea>
                 let controls = [];
                 /** @type {{x:number,y:number}[]} */
                 let pumpkins = [];
+
+                let level_name = null;
+                let level_background = null;
+
                 for (let line of value.split(/\s*\n\s*/g).map(j => j.trim())) {
                     let [command, ...params] = line.trim().split(/\s+/);
                     try {
@@ -206,6 +214,14 @@ pumpkin 2.5 2</textarea>
                                 let [x, y, w, h] = rest.map(i => +i);
                                 controls.find(({color: controlColor}) => controlColor === color).doors.push({x, y, w, h});
                             } break;
+                            case "@name" : {
+                                level_name = params.join(' ');
+                                break;
+                            }
+                            case "@background" : {
+                                level_background = params.join(' ');
+                                break;
+                            }
                         }
                     } catch (e) { }
                 }
@@ -269,9 +285,13 @@ pumpkin 2.5 2</textarea>
                     }
                 }
 
-                let all_code = `new Level(null, function(level, player, berry){\n${code}}, function(level){\n${p_code}})`;
+                let all_code = `new Level(${level_name ?? "Good Luck!"}, ${
+                    level_background ? `document.getElementById(${level_background})` : null
+                }${code === '' ? p_code === '' ? '' : ', null' : `, function(level, player, berry){\n${code}}`}${
+                    p_code === '' ? '' : `, function(level){\n${p_code}}`
+                })`;
                 let code_display = document.getElementById('code');
-                code_display.innerText = all_code;
+                code_display.innerText = `/*\n${value}\n*/\n` + all_code;
 
                 code_display.oncontextmenu = e => {
                     const range = document.createRange();
