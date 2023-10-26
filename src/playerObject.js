@@ -4,7 +4,7 @@ class PlayerObject extends GameObject {
     static PLAYER_JUMP_SPEED = 0.19;
 
     constructor() {
-        super(new Vec2(0.95, 0.85), PlayerObject.image, {isStatic: false, friction: 0});
+        super(new Vec2(1, 0.85), PlayerObject.image, {isStatic: false, friction: 0});
         this.facing = 1;
         this.collisionMask = [0, 1];
 
@@ -39,13 +39,10 @@ class PlayerObject extends GameObject {
 }
 
 class ShadowPlayerObject extends GameObject {
-    static image = [
-        document.getElementById('guinea-img'),
-        document.getElementById('mara-img')
-    ];
+    static image = document.getElementById('guinea-img');
 
     constructor(i) {
-        super(new Vec2(1, 0.85), ShadowPlayerObject.image[i], {isStatic: false, friction: 0});
+        super(new Vec2(1, 0.85), ShadowPlayerObject.image, {isStatic: false, friction: 0});
     }
 
     lx = 0;
