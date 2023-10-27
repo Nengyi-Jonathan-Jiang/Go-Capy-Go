@@ -1,5 +1,5 @@
 /*
-@name "Button Shenanigans"
+@name "Doors and Buttons"
 @background "level-2-background"
 
 platform 2 5 2 0.5
@@ -15,7 +15,7 @@ button #4fc 8 6
 door #4fc 9 2 1 -5
 platform 10 2 1 6
 */
-new Level("Button Shenanigans", document.getElementById("level-2-background"), function(level, player, berry){
+new Level("Doors and Buttons", document.getElementById("level-2-background"), function(level, player, berry){
     level.addPlatformAt(4, 6.25, 2, 0.5);
     level.addPlatformAt(7.5, 3.25, 1, 6.5);
     level.addPlatformAt(11.5, 6, 1, 6);
