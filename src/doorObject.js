@@ -94,23 +94,38 @@ class DoorObject extends GameObject {
         this.position = new Vec2(x, y);
         this.#initial_height = sy;
         this.#initial_y = y;
+
+        this.sensor = new GameObject(new Vec2(0.9, 0.01), null, {isStatic: true});
     }
 
-    update(engine, deltaTime) {
-        if (this.open) {
-            this.#open_progress = Math.min(this.#open_progress + deltaTime * 0.005 / Math.abs(this.#initial_height), 1);
-        } else {
-            this.#open_progress = Math.max(this.#open_progress - deltaTime * 0.005 / Math.abs(this.#initial_height), 0);
-        }
+    updateDoor(){
         if (this.#open_progress === 1) {
             this.y = 1000;
         } else {
-            let h = this.#initial_height * (1 - (this.#open_progress));
+            let h = this.#initial_height * ((1 - this.#open_progress) ** 2);
             let y = this.#initial_y - this.#initial_height / 2 + h / 2;
 
             this.size = this.size.setY(h);
             this.y = y;
         }
+    }
+
+    update(engine, deltaTime) {
+        const lastOpenProgress = this.#open_progress;
+        if (this.open) {
+            this.#open_progress = Math.min(this.#open_progress + deltaTime * 0.007 / Math.abs(this.#initial_height), 1);
+        } else {
+            this.#open_progress = Math.max(this.#open_progress - deltaTime * 0.007 / Math.abs(this.#initial_height), 0);
+
+            if(this.#initial_height > 0) {
+                this.updateDoor();
+                this.sensor.position = this.position.plus(new Vec2(0, this.size.y / 2));
+                if (engine.gameObjects.find(i =>
+                    (i instanceof BoxObject || i instanceof PlayerObject) && i.isCollidingWith(this.sensor)
+                )) this.#open_progress = lastOpenProgress;
+            }
+        }
+        this.updateDoor();
     }
 
     draw(ctx) {

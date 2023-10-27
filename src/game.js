@@ -1,11 +1,13 @@
 class Level {
     /**
+     * @param {string} name
      * @param {HTMLImageElement} background
-     * @param {(level: Level, player: GameObject, berry: GameObject)=>any} onRestart
+     * @param {(level: Level, player: GameObject, berry: GameObject)=>any} [onRestart]
      * @param {(level: Level)=>any} [onLoad]
      * @param {(level: Level)=>any} [onUpdate]
      */
-    constructor(background, onRestart, onLoad, onUpdate) {
+    constructor(name, background, onRestart, onLoad, onUpdate) {
+        this.name = name;
         this.background = background;
         this.engine = new GameEngine();
         this.recorders = [new ShadowRecorder(), new ShadowRecorder(), new ShadowRecorder()];
@@ -13,9 +15,6 @@ class Level {
         this.generate = onRestart ?? (() => {});
         this.onLoad = onLoad ?? (() => {});
         this.onUpdate = onUpdate ?? (() => {});
-
-        this.player = new PlayerObject();
-        this.berry = new BerryObject(0, 0);
 
         this.reset();
     }
@@ -34,14 +33,16 @@ class Level {
         this.onLoad(this);
         this.persistentObjects = this.engine.gameObjects;
         this.isWon = false;
+        this.player = new PlayerObject();
+        this.berry = new BerryObject(0, 0);
         this.restart();
     }
 
     regenerateLevel(){
         const {engine} = this;
         engine.remove(...engine.gameObjects.filter(i => !this.persistentObjects.includes(i)));
-        this.player.position = new Vec2(1.5, 7.5);
-        this.berry.position = new Vec2(14.5, 7.5);
+        this.player.position = new Vec2(1.5, 7.65);
+        this.berry.position = new Vec2(14, 7);
         engine.add(new PlatformObject(8, 0.5, 16, 1));
         engine.add(new PlatformObject(8, 8.5, 16, 1));
         engine.add(new PlatformObject(0.5, 4.5, 1, 16));
@@ -153,6 +154,9 @@ class Level {
 
         if(events.keysDown[' ']){
             this.player.tryJump(this.engine);
+        }
+        if(events.keysDown['r']) {
+            this.reset();
         }
 
         for(let obj of this.engine.gameObjects.filter(i => this.player.isCollidingWith(i))) {
