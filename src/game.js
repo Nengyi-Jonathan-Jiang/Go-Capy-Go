@@ -108,6 +108,14 @@ class Level {
     /**
      * @param {number} x
      * @param {number} y
+     */
+    addBlockAt(x, y) {
+        this.engine.add(new BlockObject(x, y));
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
      * @param {number} w
      * @param {number} h
      */

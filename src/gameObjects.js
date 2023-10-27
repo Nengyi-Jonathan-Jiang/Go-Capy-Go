@@ -53,6 +53,20 @@ class BoxObject extends GameObject {
     }
 }
 
+class BlockObject extends GameObject {
+    static image = document.getElementById('block-img');
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    constructor(x, y) {
+        super(new Vec2(1, 1), BlockObject.image, {isStatic: true});
+        this.position = new Vec2(x, y);
+        this.collisionLayer = 1;
+    }
+}
+
 
 class PumpkinObject extends GameObject {
     static image = document.getElementById('pump-img');

@@ -70,6 +70,13 @@
                 height:           50px;
                 background-size:  contain;
             }
+            .block {
+                background-image: url("res/image/block.png");
+                position:         absolute;
+                width:            50px;
+                height:           50px;
+                background-size:  contain;
+            }
 
             .button {
                 position:         absolute;
@@ -164,7 +171,8 @@ button #4fc 8 6
 door #4fc 9 2 1 -5
 platform 10 2 1 5
 box 2.5 4
-pumpkin 2.5 2</textarea>
+pumpkin 2.5 2
+block 0 0</textarea>
         </div>
         <script>
             let i = document.getElementById('input')
@@ -173,6 +181,8 @@ pumpkin 2.5 2</textarea>
                 let platforms = [];
                 /** @type {{x:number,y:number}[]} */
                 let boxes = [];
+                /** @type {{x:number,y:number}[]} */
+                let blocks = [];
                 /** @type {{
                  *      buttons: {x: number, y:number}[],
                  *      doors:   {x:number, y:number, w:number, h:number}[],
@@ -196,6 +206,10 @@ pumpkin 2.5 2</textarea>
                             case "box" : {
                                 let [x, y] = params.map(i => +i);
                                 boxes.push({x, y});
+                            } break;
+                            case "block" : {
+                                let [x, y] = params.map(i => +i);
+                                blocks.push({x, y});
                             } break;
                             case "pumpkin" : {
                                 let [x, y] = params.map(i => +i);
@@ -283,6 +297,15 @@ pumpkin 2.5 2</textarea>
                         preview.appendChild(p);
                         code += `    doorManager${i}.linkButton(level.addButtonAt(${x + 1.5}, ${y + 2}))\n`;
                     }
+                }
+                for (let {x, y} of blocks) {
+                    let p = document.createElement('div');
+                    p.className = 'block';
+                    p.style.setProperty('left', 50 + x * 50 + 'px');
+                    p.style.setProperty('top', 50 + y * 50 + 'px');
+                    preview.appendChild(p);
+
+                    code += `    level.addBlockAt(${x + 1.5}, ${y + 1.5});\n`;
                 }
 
                 let all_code = `new Level(${level_name ?? "Good Luck!"}, ${
