@@ -21,7 +21,7 @@ class DoorManager extends GameObject {
      * @param {DoorObject} door
      * @param inverted
      */
-    linkDoor(door, inverted=false) {
+    linkDoor(door, inverted = false) {
         this.linkedDoors.push({door, inverted});
         door.color = this.color;
     }
@@ -30,7 +30,7 @@ class DoorManager extends GameObject {
      * @param {ButtonObject} button
      * @param inverted
      */
-    linkButton(button, inverted=false){
+    linkButton(button, inverted = false) {
         this.linkedButtons.push({button, inverted});
         button.color = this.color;
     }
@@ -68,11 +68,7 @@ class ButtonObject extends GameObject {
     }
 
     get isPressed() {
-        return !!this.engine.gameObjects.find(i =>
-            i !== this &&
-            (i instanceof BoxObject || i instanceof PlayerObject || i instanceof ShadowPlayerObject)
-            && this.isCollidingWith(i)
-        );
+        return !!this.engine.gameObjects.find(i => i !== this && (i instanceof BoxObject || i instanceof PlayerObject || i instanceof ShadowPlayerObject) && this.isCollidingWith(i));
     }
 }
 
@@ -80,7 +76,8 @@ class DoorObject extends GameObject {
     #open_progress = 0;
     #initial_height;
     #initial_y;
-    color; open = false;
+    color;
+    open = false;
 
     /**
      * @param {number} x
@@ -98,7 +95,7 @@ class DoorObject extends GameObject {
         this.sensor = new GameObject(new Vec2(0.9, 0.01), null, {isStatic: true});
     }
 
-    updateDoor(){
+    updateDoor() {
         if (this.#open_progress === 1) {
             this.y = 1000;
         } else {
@@ -117,12 +114,10 @@ class DoorObject extends GameObject {
         } else {
             this.#open_progress = Math.max(this.#open_progress - deltaTime * 0.007 / Math.abs(this.#initial_height), 0);
 
-            if(this.#initial_height > 0) {
+            if (this.#initial_height > 0) {
                 this.updateDoor();
                 this.sensor.position = this.position.plus(new Vec2(0, this.size.y / 2));
-                if (engine.gameObjects.find(i =>
-                    (i instanceof BoxObject || i instanceof PlayerObject) && i.isCollidingWith(this.sensor)
-                )) this.#open_progress = lastOpenProgress;
+                if (engine.gameObjects.find(i => (i instanceof BoxObject || i instanceof PlayerObject) && i.isCollidingWith(this.sensor))) this.#open_progress = lastOpenProgress;
             }
         }
         this.updateDoor();

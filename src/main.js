@@ -3,11 +3,10 @@ window.onresize = (f => (f(), f))(() => renderer.resize());
 
 let i = 0;
 
-document.getElementById('restart').onmousedown = _ => levels[i].reset();
-
 requestAnimationFrame(function frame() {
     const level = levels[i];
-    level.updateAndRender(renderer);
+    level.update();
+    level.render(renderer);
     if(level.isWon) {
         i++;
         if(i < levels.length) {
@@ -16,7 +15,7 @@ requestAnimationFrame(function frame() {
     }
     if(i >= levels.length) {
         alert('You beat the game');
-        return;
+        i = 0;
     }
     requestAnimationFrame(frame);
 })

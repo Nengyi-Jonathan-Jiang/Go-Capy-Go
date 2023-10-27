@@ -64,7 +64,7 @@ class ShadowRecorder {
         if(!this.#hasRecording) return;
         this.#playing = true;
         this.#shadowGameObjects = this.#gameObjects.map(i => i.clone()).map(f);
-        this.#shadowGameObjects.forEach(i => i.makeStatic());
+        this.#shadowGameObjects.forEach(i => i.isStatic = true);
 
         this.restartPlayback();
     }

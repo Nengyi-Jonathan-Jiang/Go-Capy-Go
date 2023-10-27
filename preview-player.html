@@ -44,10 +44,9 @@
 
             const level = eval(code);
 
-            document.getElementById('restart').onmousedown = _ => level.reset();
-
             requestAnimationFrame(function frame() {
-                level.updateAndRender(renderer);
+                level.update();
+                level.render(renderer);
                 if(level.isWon) {
                     level.reset();
                 }

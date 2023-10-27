@@ -117,15 +117,14 @@ class GameObject {
         return newObj;
     }
 
-    makeStatic() {
-        this.body.isStatic = true;
-    }
-    makeNotStatic() {
-        this.body.isStatic = false;
-    }
-
+    /** @type {boolean} */
     get isStatic() {
         return this.body.isStatic;
+    }
+
+    /** @param {boolean} isStatic */
+    set isStatic(isStatic) {
+        this.body.isStatic = isStatic;
     }
 
     /**

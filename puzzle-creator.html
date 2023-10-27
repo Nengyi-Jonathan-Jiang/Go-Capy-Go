@@ -308,7 +308,7 @@ block 0 0</textarea>
                     code += `    level.addBlockAt(${x + 1.5}, ${y + 1.5});\n`;
                 }
 
-                let all_code = `new Level(${level_name ?? "Good Luck!"}, ${
+                let all_code = `new Level(${level_name ?? "\"Good Luck!\""}, ${
                     level_background ? `document.getElementById(${level_background})` : null
                 }${code === '' ? p_code === '' ? '' : ', null' : `, function(level, player, berry){\n${code}}`}${
                     p_code === '' ? '' : `, function(level){\n${p_code}}`
