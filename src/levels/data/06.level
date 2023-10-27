@@ -3,6 +3,7 @@
 @background "level-6-background"
 
 # Left block
+control #4fc
 control #fac
 control #fd4
 
@@ -35,9 +36,9 @@ block 11 6
 platform 13 4 2 1
 button #fd4 13 3
 
-control #4fc
-button #4fc 12 6
-door #4fc 11 4 2 -0.5
+control #caf
+button #caf 12 6
+door #caf 11 4 2 -0.5
 box 12 3
 */
 new Level("Rube Goldberg Machine 2", document.getElementById("level-6-background"), function(level, player, berry){
@@ -49,16 +50,17 @@ new Level("Rube Goldberg Machine 2", document.getElementById("level-6-background
     level.addBoxAt(3, 5.5);
     level.addBoxAt(11.5, 1.5);
     level.addBoxAt(13.5, 4.5);
-    let doorManager0 = level.addDoorManager("#fac");
-    doorManager0.linkDoor(level.addDoorAt(11.5, 3, 1, -2))
-    doorManager0.linkDoor(level.addDoorAt(11.5, 7, 1, -2))
-    doorManager0.linkButton(level.addButtonAt(10.5, 8))
-    let doorManager1 = level.addDoorManager("#fd4");
-    doorManager1.linkDoor(level.addDoorAt(12.5, 7, 1, -2))
-    doorManager1.linkButton(level.addButtonAt(14.5, 5))
-    let doorManager2 = level.addDoorManager("#4fc");
-    doorManager2.linkDoor(level.addDoorAt(13, 5.25, 2, -0.5))
-    doorManager2.linkButton(level.addButtonAt(13.5, 8))
+    let doorManager0 = level.addDoorManager("#4fc");
+    let doorManager1 = level.addDoorManager("#fac");
+    doorManager1.linkDoor(level.addDoorAt(11.5, 3, 1, -2))
+    doorManager1.linkDoor(level.addDoorAt(11.5, 7, 1, -2))
+    doorManager1.linkButton(level.addButtonAt(10.5, 8))
+    let doorManager2 = level.addDoorManager("#fd4");
+    doorManager2.linkDoor(level.addDoorAt(12.5, 7, 1, -2))
+    doorManager2.linkButton(level.addButtonAt(14.5, 5))
+    let doorManager3 = level.addDoorManager("#caf");
+    doorManager3.linkDoor(level.addDoorAt(13, 5.25, 2, -0.5))
+    doorManager3.linkButton(level.addButtonAt(13.5, 8))
     level.addBlockAt(12.5, 4.5);
     level.addBlockAt(12.5, 6.5);
     level.addBlockAt(12.5, 7.5);

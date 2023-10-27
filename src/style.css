@@ -27,12 +27,3 @@ div#game > * {
     top:      0;
     left:     0;
 }
-
-div#restart {
-    width:            calc(100% / 16);
-    height:           calc(100% / 9);
-    background-image: url("../res/image/restart.png");
-    background-size:  cover;
-    position: absolute;
-    right: 0;
-}

@@ -19,11 +19,11 @@ class Level {
         this.reset();
     }
 
-    get recorder (){
+    get currentRecorder (){
         return this.recorders[2];
     }
 
-    get recordings() {
+    get currentlyRunningRecordings() {
         return this.recorders.slice(0, 2);
     }
 
@@ -31,36 +31,36 @@ class Level {
         this.recorders.forEach(i => i.reset());
         this.engine.remove(...this.engine.gameObjects);
         this.onLoad(this);
-        this.persistentObjects = this.engine.gameObjects;
+        this.volatileObjects = this.engine.gameObjects;
         this.isWon = false;
         this.player = new PlayerObject();
         this.berry = new BerryObject(0, 0);
-        this.restart();
+        this.restartWithShadow();
     }
 
-    regenerateLevel(){
+    resetPersistentLevelObjects(){
         const {engine} = this;
-        engine.remove(...engine.gameObjects.filter(i => !this.persistentObjects.includes(i)));
-        this.player.position = new Vec2(1.5, 7.65);
-        this.berry.position = new Vec2(14, 7);
+        engine.remove(...engine.gameObjects.filter(i => !this.volatileObjects.includes(i)));
+        this.player.position = new Vec2(1.5, 7.575);
+        this.berry.position = new Vec2(15.5, 7.5);
         engine.add(new PlatformObject(8, 0.5, 16, 1));
         engine.add(new PlatformObject(8, 8.5, 16, 1));
-        engine.add(new PlatformObject(0.5, 4.5, 1, 16));
-        engine.add(new PlatformObject(15.5, 4.5, 1, 16));
+        engine.add(new PlatformObject(0.5, 4.5, 1, 9));
+        engine.add(new PlatformObject(15.5, 3.5, 1, 7));
         this.generate(this, this.player, this.berry);
         engine.add(this.berry, this.player);
     }
 
-    restart (){
-        this.recorder.stopRecording();
-        this.regenerateLevel();
+    restartWithShadow (){
+        this.currentRecorder.stopRecording();
+        this.resetPersistentLevelObjects();
 
         this.recorders.push(this.recorders.shift());
 
 
-        this.recorder.startRecording(this.engine);
+        this.currentRecorder.startRecording(this.engine);
         for(let i = 0; i < 2; i++){
-            this.recordings[i].startPlayback(obj => {
+            this.currentlyRunningRecordings[i].startPlayback(obj => {
                 if(obj instanceof PlayerObject){
                     obj = new ShadowPlayerObject(i);
                     obj.collisionLayer = 2;
@@ -108,6 +108,14 @@ class Level {
     /**
      * @param {number} x
      * @param {number} y
+     */
+    addBlockAt(x, y) {
+        this.engine.add(new BlockObject(x, y));
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
      * @param {number} w
      * @param {number} h
      */
@@ -136,13 +144,9 @@ class Level {
         return doorManager;
     }
 
-    /**
-     * @param {Renderer} renderer
-     */
-    updateAndRender(renderer) {
+    update() {
         this.recorders.forEach(i => i.update());
         this.engine.update();
-        renderer.render(this.engine, this.background);
 
         if(events.keysDown['a']){
             this.player.move(-1)
@@ -162,7 +166,7 @@ class Level {
         for(let obj of this.engine.gameObjects.filter(i => this.player.isCollidingWith(i))) {
             if(obj instanceof PumpkinObject) {
                 this.engine.remove(obj);
-                this.restart();
+                this.restartWithShadow();
             }
             else if(obj instanceof BerryObject) {
                 this.isWon = true;
@@ -172,7 +176,8 @@ class Level {
         this.onUpdate(this);
     }
 
-    get isLevelCleared() {
-        return this.isWon;
+    /** @param {Renderer} renderer */
+    render(renderer) {
+        renderer.render(this.engine, this.background);
     }
 }
