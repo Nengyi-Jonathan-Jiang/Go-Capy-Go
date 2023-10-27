@@ -1,5 +1,5 @@
 /*
-@name "Caged Lion"
+@name "Remote Package Delivery"
 @background "level-7-background"
 
 # Left block
@@ -50,7 +50,7 @@ button #caf 12 6
 door #caf 11 4 2 -0.5
 box 12 3
 */
-new Level("Caged Lion", document.getElementById("level-7-background"), function(level, player, berry){
+new Level("Remote Package Delivery", document.getElementById("level-7-background"), function(level, player, berry){
     level.addPlatformAt(3, 6.25, 4, 0.5);
     level.addPlatformAt(6.5, 7.25, 1, 2.5);
     level.addPlatformAt(10.5, 2, 1, 4);

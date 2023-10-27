@@ -1,5 +1,5 @@
 /*
-@name "Package Delivery"
+@name "Rube Goldberg Machine 2"
 @background "level-6-background"
 
 # Left block
@@ -41,7 +41,7 @@ button #caf 12 6
 door #caf 11 4 2 -0.5
 box 12 3
 */
-new Level("Package Delivery", document.getElementById("level-6-background"), function(level, player, berry){
+new Level("Rube Goldberg Machine 2", document.getElementById("level-6-background"), function(level, player, berry){
     level.addPlatformAt(3, 6.25, 4, 0.5);
     level.addPlatformAt(10.5, 2, 1, 4);
     level.addPlatformAt(12.5, 2, 1, 4);
