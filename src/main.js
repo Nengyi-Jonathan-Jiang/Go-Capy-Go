@@ -45,6 +45,7 @@ for(let i = 0; i < levels.length; i++){
     d.appendChild(b);
     let s = document.createElement('span');
     s.innerText = `${i + 1}. ${levels[i].name}`;
+    toImage(`${i + 1}. ${levels[i].name}`.toUpperCase()).then(i => s.replaceWith(i)).catch()
     d.appendChild(s);
 
     document.getElementById('levels').appendChild(d);
