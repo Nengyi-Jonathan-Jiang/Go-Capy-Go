@@ -54,8 +54,9 @@ div.screen[data-active] {
 }
 
 #title-screen {
-    background: rebeccapurple;
+    background: url("../res/image/homescreen.png");
     color: white;
+    background-size: cover;
 }
 
 #levels-screen {
@@ -160,3 +161,21 @@ div.screen[data-active] {
     transform: scale(50%) translate(-45%, 0);
 }
 
+#restart-button, #quit-button {
+    position: absolute;
+    width: calc(var(--d) * 0.5);
+    height: calc(var(--d) * 0.5);
+    border: 0;
+    outline: 0;
+    padding: 0;
+    margin: calc(var(--d) * 0.25);
+    background-size: cover !important;
+}
+#restart-button {
+    background: url("../res/image/restart.png");
+    right: var(--d);
+}
+#quit-button {
+    background: url("../res/image/quit.png");
+    right: 0;
+}

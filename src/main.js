@@ -28,7 +28,7 @@ document.getElementById('restart-button').onclick = _ => {
     if(Screens.activeScreen === Screens.GAME) levels[currLevelIndex].reset();
 }
 document.getElementById('quit-button').onclick = _ => {
-    if(Screens.activeScreen === Screens.GAME) Screens.activeScreen = Screens.TITLE
+    if(Screens.activeScreen === Screens.GAME) Screens.activeScreen = Screens.LEVELS
 }
 
 for(let i = 0; i < levels.length; i++){
