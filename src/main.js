@@ -78,3 +78,7 @@ requestAnimationFrame(function frame() {
     }
     requestAnimationFrame(frame);
 })
+
+window.onblur = _ => {
+    document.querySelectorAll('audio').forEach(i => i.pause());
+}
