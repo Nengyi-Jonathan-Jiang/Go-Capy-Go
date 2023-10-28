@@ -73,6 +73,7 @@ requestAnimationFrame(function frame() {
             if(level.isWon) {
                 document.getElementById('levels').children[currLevelIndex].dataset.win = "";
                 currLevelIndex++;
+                levels[currLevelIndex]?.reset();
             }
             break;
     }
