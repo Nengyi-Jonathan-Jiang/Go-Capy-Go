@@ -11,11 +11,13 @@ body {
     justify-content:  center;
     align-items:      center;
     overflow:         hidden;
+    user-select: none;
 }
 
 div#game {
-    width:            calc(min(100vw / 16, 100vh / 9) * 16);
-    height:           calc(min(100vw / 16, 100vh / 9) * 9);
+    --d: min(100vw / 16, 100vh / 9);
+    width:            calc(var(--d) * 16);
+    height:           calc(var(--d) * 9);
     position:         relative;
     background-color: white;
 }
@@ -28,81 +30,13 @@ div#game > * {
     left:     0;
 }
 
-div#restart {
+div#restart-button {
     width:            calc(100% / 16);
     height:           calc(100% / 9);
     background-image: url("../res/image/restart.png");
     background-size:  cover;
     position: absolute;
     right: 0;
-}
-div#select{
-    width:            calc(min(100vw / 16, 100vh / 9) * 16);
-    height:           calc(min(100vw / 16, 100vh / 9) * 9);
-}
-div#col-1{
-    position: relative;
-    width:40%;
-    float:left;
-    height: 100%;
-    background-color: #215d9a;
-}
-#capy{
-    width:95%;
-    height:auto;
-    /* min-height: 100%; */
-    position:absolute;
-    bottom:0px;
-}
-div#col-2{
-    position:relative;
-    width:60%;
-    float:left;
-    height:100%;
-    background-color: #364E66;
-    padding-bottom:1px;
-}
-#title{
-    position:relative;
-    height:15%;
-}
-.flex-container{
-    display:grid;
-    position:absolute;
-    grid-template-columns: auto auto auto;
-    bottom: 0%;
-    width:100%;
-    height:100%;
-}
-#selectbox{
-    height:100%;
-    width:100%
-}
-#levels{
-    position:relative;
-    height:75%;
-    margin-left: 3%;
-    margin-right:3%;
-    margin-top: 5%;
-}
-#item{
-    position:relative;
-    padding:5px;
-    text-align: center;
-    z-index: 0;
-    background-image: -webkit-image-set("/res/image/levelbox.png");
-    background-repeat: no-repeat;
-    background-size: 70% 80%;
-    background-position: 50%;
-}
-
-#item1{
-    grid-column-start: 1;
-    grid-column-end: 3;
-    padding:20px 0;
-    font-size: 30px;
-    text-align: center;
-    vertical-align: middle;
 }
 
 div.screen {
@@ -125,7 +59,7 @@ div.screen[data-active] {
 }
 
 #levels-screen {
-    background: deepskyblue;
+    background: #215d9a;
     color: white;
 }
 
@@ -134,3 +68,95 @@ div.screen[data-active] {
     height: 100%;
     position: absolute;
 }
+
+#levels-screen>div:first-child {
+    font-size: calc(var(--d));
+    font-family: monospace;
+}
+
+#levels-screen>div:nth-child(2) {
+    font-size: calc(var(--d) * 0.5);
+    font-family: monospace;
+}
+
+#levels-container {
+    height: calc(var(--d) * 6);
+    width: fit-content;
+    margin: calc(var(--d) * 0.6);
+    position: relative;
+
+    padding: 0 calc(var(--d) * 0.4);
+
+    border-top: calc(var(--d) * 0.05) solid white;
+    border-bottom: calc(var(--d) * 0.05) solid white;
+}
+
+#levels {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: calc(var(--d) * 7);
+    height: 100%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+#levels-container::after {
+    pointer-events: none;
+    content: "";
+    /*background: linear-gradient(#215d9a, #215d9a00, #215d9a);*/
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+#levels>div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: calc(var(--d) * 0.05);
+    margin-bottom: calc(var(--d) * 0.05);
+}
+
+#levels>div::after {
+    position: absolute;
+    right: 0;
+    content: "";
+    background-image: url("../res/image/levelcandygray.png");
+    display: inline-block;
+    width: calc(var(--d) * 0.5);
+    height: calc(var(--d) * 0.5);
+    background-size: cover;
+    image-rendering: pixelated;
+}
+
+#levels>div[data-win]::after {
+    background-image: url("../res/image/levelcandy.png");
+}
+
+#levels>div>button {
+    border: 0;
+    outline: none;
+    background: url("../res/image/play.png");
+    width: calc(var(--d) * 0.4);
+    height: calc(var(--d) * 0.4);
+    background-size: cover;
+    margin-right: calc(var(--d) * 0.2);
+}
+
+#levels-screen::before {
+    content: "";
+    background-image: url("../res/image/capybarapumpkin.png");
+    width: 43%;
+    height: 100%;
+    position: absolute;
+    background-size: contain;
+    left: 0;
+    transform-origin: bottom;
+    transform: scale(50%) translate(-45%, 0);
+}
+

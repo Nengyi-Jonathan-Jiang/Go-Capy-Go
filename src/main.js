@@ -2,15 +2,11 @@ const renderer = new Renderer(document.getElementById('game-canvas'));
 window.onresize = (f => (f(), f))(() => renderer.resize());
 
 let currLevelIndex = 0;
-let time = 0;
-let levelTime = 0;
 
 const Screens = {
     TITLE:       {id: 0, el: document.getElementById('title-screen')},
     LEVELS:      {id: 1, el: document.getElementById('levels-screen')},
     GAME:        {id: 2, el: document.getElementById('game-screen')},
-    LEVEL_BEGIN: {id: 3, el: document.getElementById('level-begin')},
-    LEVEL_END:   {id: 4, el: document.getElementById('level-end')},
     get activeScreen() { return Screens.__activeScreen },
     set activeScreen(screen) {
         delete this.__activeScreen.el.dataset.active;
@@ -25,7 +21,7 @@ const Screens = {
     }
 }; Screens.__activeScreen = Screens.TITLE;
 
-document.getElementById('play-button').onclick = _ => {
+document.getElementById('title-screen').onclick = _ => {
     if(Screens.activeScreen === Screens.TITLE) Screens.activeScreen = Screens.LEVELS;
 }
 document.getElementById('restart-button').onclick = _ => {
@@ -37,14 +33,19 @@ document.getElementById('quit-button').onclick = _ => {
 
 for(let i = 0; i < levels.length; i++){
     let d = document.createElement('div');
-    d.innerText = `Level ${i + 1}`;
-    d.onclick = _ => {
+    d.dataset.desc = levels[i].name;
+    let b = document.createElement('button');
+    b.onclick = _ => {
         if (Screens.activeScreen === Screens.LEVELS) {
             Screens.activeScreen = Screens.GAME;
             currLevelIndex = i;
-            time = Date.now() / 1000;
         }
     }
+    d.appendChild(b);
+    let s = document.createElement('span');
+    s.innerText = `${i + 1}. ${levels[i].name}`;
+    d.appendChild(s);
+
     document.getElementById('levels').appendChild(d);
 }
 
@@ -57,15 +58,10 @@ requestAnimationFrame(function frame() {
             level.update();
             level.render(renderer);
             if(level.isWon) {
+                document.getElementById('levels').children[currLevelIndex].dataset.win = "";
                 currLevelIndex++;
-                levelTime = Date.now() / 1000 - time;
-                Screens.activeScreen = Screens.LEVEL_END;
-                time = Date.now();
             }
             break;
-        case Screens.LEVEL_END:
-            break;
-
     }
     requestAnimationFrame(frame);
 })
