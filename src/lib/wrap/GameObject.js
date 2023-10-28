@@ -47,7 +47,7 @@ class GameObject {
     /** @type {Vec2} */
     get position() { return Vec2.copy(this.#body.position).times(1 / GameObject.__ENGINE_SCALE) }
     /** @param {Vec2} pos */
-    set position(pos) { Matter.Body.setPosition(this.#body, Vec2.copy(pos).times(GameObject.__ENGINE_SCALE)) }
+    set position(pos) { Matter.Body.setPosition(this.#body, pos.times(GameObject.__ENGINE_SCALE)) }
 
     get x() { return this.position.x }
     get y() { return this.position.y }
@@ -67,7 +67,7 @@ class GameObject {
     /** @param {Vec2} f */
     addForce(f) { Matter.Body.applyForce(this.#body, this.#body.position, f.times(GameObject.__ENGINE_SCALE)) }
     /** @param {Vec2} f */
-    set force(f) { this.#body.force = Vec2.copy(f.times(GameObject.__ENGINE_SCALE)) }
+    set force(f) { this.#body.force = f.times(GameObject.__ENGINE_SCALE) }
 
     /** @type {number} */
     get rotation() { return this.#body.angle }
@@ -79,7 +79,7 @@ class GameObject {
     set angularVelocity(omega) { Matter.Body.setAngularVelocity(this.#body, omega) }
 
     /** @type {Vec2} */
-    get size() { return Vec2.copy(this.#size) }
+    get size() { return this.#size }
     /** @param {Vec2} size */
     set size(size) { Matter.Body.setVertices(this.body,
         [
@@ -88,7 +88,7 @@ class GameObject {
             size.componentTimes(0.5, 0.5).times(GameObject.__ENGINE_SCALE),
             size.componentTimes(0.5, -0.5).times(GameObject.__ENGINE_SCALE),
         ]
-    ); this.#size = Vec2.copy(size) }
+    ); this.#size = size }
     /** @type {HTMLImageElement} */
     get image(){ return this.#image }
 
@@ -109,7 +109,7 @@ class GameObject {
 
     clone() {
         const clonedBody = structuredClone(this.#body);
-        const newObj = new GameObject(Vec2.copy(this.#size), this.#image);
+        const newObj = new GameObject(this.#size, this.#image);
         Object.assign(newObj, this);
         Object.setPrototypeOf(newObj, Object.getPrototypeOf(this));
         clonedBody.gameObject = newObj;
