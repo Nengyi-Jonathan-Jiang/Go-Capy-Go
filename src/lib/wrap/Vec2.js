@@ -18,23 +18,12 @@ class Vec2 {
 
     /** @param {{x:number,y:number}} vec2like */
     static copy(vec2like){ return new Vec2(vec2like.x, vec2like.y) }
-    /**
-     * @param {number} x
-     * @param {number} y
-     */
-    static fromArray([x, y]){ return new Vec2(x, y) }
-
-    get plainObject() { return {x: this[0], y: this[1] }}
 
     /** @type {number} */
     get x() { return this[0] }
-    /** @param {number} x */
-    set x(x) { this[0] = x }
 
     /** @type {number} */
     get y() { return this[1] }
-    /** @param {number} y */
-    set y(y) { this[1] = y }
 
     /** @param {number} x */
     setX(x) { return new Vec2(x, this.y) }

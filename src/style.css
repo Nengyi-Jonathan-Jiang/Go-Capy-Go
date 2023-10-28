@@ -11,11 +11,13 @@ body {
     justify-content:  center;
     align-items:      center;
     overflow:         hidden;
+    user-select: none;
 }
 
 div#game {
-    width:            calc(min(100vw / 16, 100vh / 9) * 16);
-    height:           calc(min(100vw / 16, 100vh / 9) * 9);
+    --d: min(100vw / 16, 100vh / 9);
+    width:            calc(var(--d) * 16);
+    height:           calc(var(--d) * 9);
     position:         relative;
     background-color: white;
 }
@@ -26,4 +28,154 @@ div#game > * {
     position: absolute;
     top:      0;
     left:     0;
+}
+
+div#restart-button {
+    width:            calc(100% / 16);
+    height:           calc(100% / 9);
+    background-image: url("../res/image/restart.png");
+    background-size:  cover;
+    position: absolute;
+    right: 0;
+}
+
+div.screen {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+}
+
+div.screen[data-active] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#title-screen {
+    background: url("../res/image/homescreen.png");
+    color: white;
+    background-size: cover;
+}
+
+#levels-screen {
+    background: #215d9a;
+    color: white;
+}
+
+#game-screen>* {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+#levels-screen>div:first-child {
+    font-size: calc(var(--d));
+    font-family: monospace;
+}
+
+#levels-screen>div:nth-child(2) {
+    font-size: calc(var(--d) * 0.5);
+    font-family: monospace;
+}
+
+#levels-container {
+    height: calc(var(--d) * 6);
+    width: fit-content;
+    margin: calc(var(--d) * 0.6);
+    position: relative;
+
+    padding: 0 calc(var(--d) * 0.4);
+
+    border-top: calc(var(--d) * 0.05) solid white;
+    border-bottom: calc(var(--d) * 0.05) solid white;
+}
+
+#levels {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: calc(var(--d) * 7);
+    height: 100%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+#levels-container::after {
+    pointer-events: none;
+    content: "";
+    /*background: linear-gradient(#215d9a, #215d9a00, #215d9a);*/
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+#levels>div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: calc(var(--d) * 0.05);
+    margin-bottom: calc(var(--d) * 0.05);
+}
+
+#levels>div::after {
+    position: absolute;
+    right: 0;
+    content: "";
+    background-image: url("../res/image/levelcandygray.png");
+    display: inline-block;
+    width: calc(var(--d) * 0.5);
+    height: calc(var(--d) * 0.5);
+    background-size: cover;
+    image-rendering: pixelated;
+}
+
+#levels>div[data-win]::after {
+    background-image: url("../res/image/levelcandy.png");
+}
+
+#levels>div>button {
+    border: 0;
+    outline: none;
+    background: url("../res/image/play.png");
+    width: calc(var(--d) * 0.4);
+    height: calc(var(--d) * 0.4);
+    background-size: cover;
+    margin-right: calc(var(--d) * 0.2);
+}
+
+#levels-screen::before {
+    content: "";
+    background-image: url("../res/image/capybarapumpkin.png");
+    width: 43%;
+    height: 100%;
+    position: absolute;
+    background-size: contain;
+    left: 0;
+    transform-origin: bottom;
+    transform: scale(50%) translate(-45%, 0);
+}
+
+#restart-button, #quit-button {
+    position: absolute;
+    width: calc(var(--d) * 0.5);
+    height: calc(var(--d) * 0.5);
+    border: 0;
+    outline: 0;
+    padding: 0;
+    margin: calc(var(--d) * 0.25);
+    background-size: cover !important;
+}
+#restart-button {
+    background: url("../res/image/restart.png");
+    right: var(--d);
+}
+#quit-button {
+    background: url("../res/image/quit.png");
+    right: 0;
 }
