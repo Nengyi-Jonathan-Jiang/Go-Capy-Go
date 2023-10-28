@@ -46,13 +46,15 @@
             }
 
             #code {
-                flex-grow:     1;
-                outline:       1px solid black;
+                width: 800px;
+                flex: 1;
+                outline: 1px solid black;
                 margin-bottom: 0;
-                margin-top:    10px;
-                background:    black;
-                color:         white;
-                padding:       10px;
+                margin-top: 10px;
+                background: black;
+                color: white;
+                padding: 10px;
+                overflow: auto;
             }
 
 
@@ -63,6 +65,13 @@
 
             .box {
                 background-image: url("res/image/box.png");
+                position:         absolute;
+                width:            50px;
+                height:           50px;
+                background-size:  contain;
+            }
+            .block {
+                background-image: url("res/image/block.png");
                 position:         absolute;
                 width:            50px;
                 height:           50px;
@@ -112,6 +121,14 @@
                 animation: door-animate 2s infinite;
             }
 
+            .pumpkin {
+                background-image: url("res/image/pump.png");
+                width: 50px;
+                height: 60px;
+                position: absolute;
+                background-size: contain;
+            }
+
             @keyframes door-animate {
                 0% { height: 100% }
                 100% {height: 0 }
@@ -138,21 +155,24 @@
                 <div id="preview">
 
                 </div>
-                <pre id="code">new Level(document.getElementById(""), function(level, player, berry){
-
-}),</pre>
+                <pre id="code"></pre>
             </div>
             <!--suppress HtmlFormInputWithoutLabel -->
-            <textarea id="input">control #fac
+            <textarea id="input">@name "Test Level"
+@background "level-1-background"
+
+control #fac
 button #fac 0 6
+door #fac 6 5 1 2
 platform 2 5 2 0.5
 platform 6 0 1 5
-door 0 6 5 1 2
 control #4fc
 button #4fc 8 6
-door 1 9 2 1 -5
+door #4fc 9 2 1 -5
 platform 10 2 1 5
-box 2.5 4</textarea>
+box 2.5 4
+pumpkin 2.5 2
+block 0 0</textarea>
         </div>
         <script>
             let i = document.getElementById('input')
@@ -161,6 +181,8 @@ box 2.5 4</textarea>
                 let platforms = [];
                 /** @type {{x:number,y:number}[]} */
                 let boxes = [];
+                /** @type {{x:number,y:number}[]} */
+                let blocks = [];
                 /** @type {{
                  *      buttons: {x: number, y:number}[],
                  *      doors:   {x:number, y:number, w:number, h:number}[],
@@ -169,6 +191,10 @@ box 2.5 4</textarea>
                 let controls = [];
                 /** @type {{x:number,y:number}[]} */
                 let pumpkins = [];
+
+                let level_name = null;
+                let level_background = null;
+
                 for (let line of value.split(/\s*\n\s*/g).map(j => j.trim())) {
                     let [command, ...params] = line.trim().split(/\s+/);
                     try {
@@ -180,6 +206,10 @@ box 2.5 4</textarea>
                             case "box" : {
                                 let [x, y] = params.map(i => +i);
                                 boxes.push({x, y});
+                            } break;
+                            case "block" : {
+                                let [x, y] = params.map(i => +i);
+                                blocks.push({x, y});
                             } break;
                             case "pumpkin" : {
                                 let [x, y] = params.map(i => +i);
@@ -194,9 +224,18 @@ box 2.5 4</textarea>
                                 controls.find(({color: controlColor}) => controlColor === color).buttons.push({x, y});
                             } break;
                             case "door" : {
-                                let [index, x, y, w, h] = params.map(i => +i);
-                                controls[index].doors.push({x, y, w, h});
+                                let [color, ...rest] = params;
+                                let [x, y, w, h] = rest.map(i => +i);
+                                controls.find(({color: controlColor}) => controlColor === color).doors.push({x, y, w, h});
                             } break;
+                            case "@name" : {
+                                level_name = params.join(' ');
+                                break;
+                            }
+                            case "@background" : {
+                                level_background = params.join(' ');
+                                break;
+                            }
                         }
                     } catch (e) { }
                 }
@@ -226,15 +265,14 @@ box 2.5 4</textarea>
 
                     code += `    level.addBoxAt(${x + 1.5}, ${y + 1.5});\n`;
                 }
-                // for (let {x, y} of pumpkins) {
-                //     let p = document.createElement('div');
-                //     p.className = 'pumpkin';
-                //     p.style.setProperty('left', 50 + x * 50 + 'px');
-                //     p.style.setProperty('top', 10 + y * 50 + 'px');
-                //     preview.appendChild(p);
-                //
-                //     p_code += `    level.addPumpkinAt(${x + 1.5}, ${y + .4});\n`;
-                // }
+                for (let {x, y} of pumpkins) {
+                    let p = document.createElement('div');
+                    p.className = 'pumpkin';
+                    p.style.setProperty('left', 50 + x * 50 + 'px');
+                    p.style.setProperty('top', 40 + y * 50 + 'px');
+                    preview.appendChild(p);
+                    p_code += `    level.addPumpkinAt(${x + 1.5}, ${y + 1.4});\n`;
+                }
                 for (let i = 0; i < controls.length; i++) {
                     let {buttons, doors, color} = controls[i];
                     code += `    let doorManager${i} = level.addDoorManager("${color}");\n`;
@@ -260,15 +298,38 @@ box 2.5 4</textarea>
                         code += `    doorManager${i}.linkButton(level.addButtonAt(${x + 1.5}, ${y + 2}))\n`;
                     }
                 }
+                for (let {x, y} of blocks) {
+                    let p = document.createElement('div');
+                    p.className = 'block';
+                    p.style.setProperty('left', 50 + x * 50 + 'px');
+                    p.style.setProperty('top', 50 + y * 50 + 'px');
+                    preview.appendChild(p);
 
-                let all_code = `new Level(document.getElementById(""), function(level, player, berry){\n${code}}),`;
-                document.getElementById('code').innerText = all_code;
-
-                preview.onclick = _ => {
-                    let encoded = encodeURIComponent(code)
-                    window.open(`preview-player.html?code=${encoded}`, '_blank');
+                    code += `    level.addBlockAt(${x + 1.5}, ${y + 1.5});\n`;
                 }
 
+                let all_code = `new Level(${level_name ?? "\"Good Luck!\""}, ${
+                    level_background ? `document.getElementById(${level_background})` : null
+                }${code === '' ? p_code === '' ? '' : ', null' : `, function(level, player, berry){\n${code}}`}${
+                    p_code === '' ? '' : `, function(level){\n${p_code}}`
+                })`;
+                let code_display = document.getElementById('code');
+                code_display.innerText = `/*\n${value}\n*/\n` + all_code;
+
+                code_display.oncontextmenu = e => {
+                    const range = document.createRange();
+                    range.selectNode(code_display);
+                    window.getSelection().removeAllRanges();
+                    window.getSelection().addRange(range);
+                    window.navigator.clipboard.writeText(code_display.innerText);
+                    e.preventDefault();
+                }
+
+                preview.oncontextmenu = e => {
+                    let encoded = encodeURIComponent(all_code)
+                    window.open(`preview-player.html?code=${encoded}`, '_blank');
+                    e.preventDefault();
+                }
             })
         </script>
     </body>

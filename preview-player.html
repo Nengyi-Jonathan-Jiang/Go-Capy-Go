@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Game</title>
+        <title>Preview</title>
         <link rel="stylesheet" type="text/css" href="src/style.css">
 
         <!-- Physics engine at https://brm.io/matter-js/ -->
@@ -21,10 +21,9 @@
             <img src="res/image/mara.png" alt="" id="mara-img">
             <img src="res/image/guinea.png" alt="" id="guinea-img">
             <img src="res/image/box.png" alt="" id="box-img">
+            <img src="res/image/block.png" alt="" id="block-img">
             <img src="res/image/pump.png" alt="" id="pump-img">
             <img src="res/image/berry.png" alt="" id="berry-img">
-            <img src="res/image/level/1.png" alt="" id="level-1-background">
-            <img src="res/image/level/2.png" alt="" id="level-2-background">
         </div>
         <div id="game">
             <canvas id="game-canvas"></canvas>
@@ -36,20 +35,18 @@
         <script src="src/doorObject.js"></script>
         <script src="src/playerObject.js"></script>
         <script src="src/recorder.js"></script>
-        <script src="src/level.js"></script>
+        <script src="src/game.js"></script>
         <script>
             let code = decodeURIComponent(window.location.search.split('?code=')[1]);
-            let func = new Function('level, player, berry', code)
 
             const renderer = new Renderer(document.getElementById('game-canvas'));
             window.onresize = (f => (f(), f))(() => renderer.resize());
 
-            const level = new Level(document.getElementById('level-1-background'), func);
-
-            document.getElementById('restart').onmousedown = _ => levels[i].reset();
+            const level = eval(code);
 
             requestAnimationFrame(function frame() {
-                level.updateAndRender(renderer);
+                level.update();
+                level.render(renderer);
                 if(level.isWon) {
                     level.reset();
                 }

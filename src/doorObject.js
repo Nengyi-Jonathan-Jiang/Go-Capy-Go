@@ -15,14 +15,13 @@ class DoorManager extends GameObject {
         this.linkedDoors = [];
         /** @type {{button: ButtonObject, inverted: boolean}[]} */
         this.linkedButtons = [];
-        console.log(this);
     }
 
     /**
      * @param {DoorObject} door
      * @param inverted
      */
-    linkDoor(door, inverted=false) {
+    linkDoor(door, inverted = false) {
         this.linkedDoors.push({door, inverted});
         door.color = this.color;
     }
@@ -31,7 +30,7 @@ class DoorManager extends GameObject {
      * @param {ButtonObject} button
      * @param inverted
      */
-    linkButton(button, inverted=false){
+    linkButton(button, inverted = false) {
         this.linkedButtons.push({button, inverted});
         button.color = this.color;
     }
@@ -69,11 +68,7 @@ class ButtonObject extends GameObject {
     }
 
     get isPressed() {
-        return !!this.engine.gameObjects.find(i =>
-            i !== this &&
-            (i instanceof BoxObject || i instanceof PlayerObject || i instanceof ShadowPlayerObject)
-            && this.isCollidingWith(i)
-        );
+        return !!this.engine.gameObjects.find(i => i !== this && (i instanceof BoxObject || i instanceof PlayerObject || i instanceof ShadowPlayerObject) && this.isCollidingWith(i));
     }
 }
 
@@ -81,7 +76,8 @@ class DoorObject extends GameObject {
     #open_progress = 0;
     #initial_height;
     #initial_y;
-    color; open = false;
+    color;
+    open = false;
 
     /**
      * @param {number} x
@@ -95,23 +91,36 @@ class DoorObject extends GameObject {
         this.position = new Vec2(x, y);
         this.#initial_height = sy;
         this.#initial_y = y;
+
+        this.sensor = new GameObject(new Vec2(0.9, 0.01), null, {isStatic: true});
     }
 
-    update(engine, deltaTime) {
-        if (this.open) {
-            this.#open_progress = Math.min(this.#open_progress + deltaTime * 0.005 / Math.abs(this.#initial_height), 1);
-        } else {
-            this.#open_progress = Math.max(this.#open_progress - deltaTime * 0.005 / Math.abs(this.#initial_height), 0);
-        }
+    updateDoor() {
         if (this.#open_progress === 1) {
             this.y = 1000;
         } else {
-            let h = this.#initial_height * (1 - (this.#open_progress));
+            let h = this.#initial_height * ((1 - this.#open_progress) ** 2);
             let y = this.#initial_y - this.#initial_height / 2 + h / 2;
 
             this.size = this.size.setY(h);
             this.y = y;
         }
+    }
+
+    update(engine, deltaTime) {
+        const lastOpenProgress = this.#open_progress;
+        if (this.open) {
+            this.#open_progress = Math.min(this.#open_progress + deltaTime * 0.007 / Math.abs(this.#initial_height), 1);
+        } else {
+            this.#open_progress = Math.max(this.#open_progress - deltaTime * 0.007 / Math.abs(this.#initial_height), 0);
+
+            if (this.#initial_height > 0) {
+                this.updateDoor();
+                this.sensor.position = this.position.plus(new Vec2(0, this.size.y / 2));
+                if (engine.gameObjects.find(i => (i instanceof BoxObject || i instanceof PlayerObject) && i.isCollidingWith(this.sensor))) this.#open_progress = lastOpenProgress;
+            }
+        }
+        this.updateDoor();
     }
 
     draw(ctx) {
