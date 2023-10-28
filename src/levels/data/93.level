@@ -1,6 +1,0 @@
-/*
-@name "Where Am I?"
-@background "level-1-background"
-
-*/
-new Level("Where Am I?", document.getElementById("level-1-background"))

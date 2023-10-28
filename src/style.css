@@ -33,7 +33,7 @@ div#game > * {
 div#restart-button {
     width:            calc(100% / 16);
     height:           calc(100% / 9);
-    background-image: url("../res/image/restart.png");
+    background-image: url("../res/image/icon/restart.png");
     background-size:  cover;
     position: absolute;
     right: 0;
@@ -54,7 +54,7 @@ div.screen[data-active] {
 }
 
 #title-screen {
-    background: url("../res/image/homescreen.png");
+    background: url("../res/image/backgrounds/homescreen.png");
     color: white;
     background-size: cover;
 }
@@ -127,7 +127,7 @@ div.screen[data-active] {
     position: absolute;
     right: 0;
     content: "";
-    background-image: url("../res/image/levelcandygray.png");
+    background-image: url("../res/image/icon/levelcandygray.png");
     display: inline-block;
     width: calc(var(--d) * 0.5);
     height: calc(var(--d) * 0.5);
@@ -136,13 +136,13 @@ div.screen[data-active] {
 }
 
 #levels>div[data-win]::after {
-    background-image: url("../res/image/levelcandy.png");
+    background-image: url("../res/image/icon/levelcandy.png");
 }
 
 #levels>div>button {
     border: 0;
     outline: none;
-    background: url("../res/image/play.png");
+    background: url("../res/image/icon/play.png");
     width: calc(var(--d) * 0.4);
     height: calc(var(--d) * 0.4);
     background-size: cover;
@@ -151,7 +151,7 @@ div.screen[data-active] {
 
 #levels-screen::before {
     content: "";
-    background-image: url("../res/image/capybarapumpkin.png");
+    background-image: url("../res/image/backgrounds/capybarapumpkin.png");
     width: 43%;
     height: 100%;
     position: absolute;
@@ -162,7 +162,7 @@ div.screen[data-active] {
 }
 #levels-screen::after {
     content: "";
-    background-image: url("../res/image/guineabow.png");
+    background-image: url("../res/image/backgrounds/guineabow.png");
     width: 57%;
     background-repeat: no-repeat;
     height: 100%;
@@ -184,10 +184,14 @@ div.screen[data-active] {
     background-size: cover !important;
 }
 #restart-button {
-    background: url("../res/image/restart.png");
+    background: url("../res/image/icon/restart.png");
     right: var(--d);
 }
 #quit-button {
-    background: url("../res/image/quit.png");
+    background: url("../res/image/icon/quit.png");
     right: 0;
+}
+
+#levels>div:hover {
+    text-decoration: underline;
 }

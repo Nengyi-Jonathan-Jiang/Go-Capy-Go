@@ -35,7 +35,7 @@ for(let i = 0; i < levels.length; i++){
     let d = document.createElement('div');
     d.dataset.desc = levels[i].name;
     let b = document.createElement('button');
-    b.onclick = _ => {
+    d.onclick = _ => {
         if (Screens.activeScreen === Screens.LEVELS) {
             Screens.activeScreen = Screens.GAME;
             currLevelIndex = i;
@@ -52,12 +52,25 @@ for(let i = 0; i < levels.length; i++){
 requestAnimationFrame(function frame() {
     switch (Screens.activeScreen) {
         case Screens.TITLE:
+            document.getElementById('title-audio')?.play().catch(e => {});
+            document.getElementById('game-audio')?.pause();
+            document.getElementById('game-audio').currentTime = 0;
+            break;
+        case Screens.LEVELS:
+            document.getElementById('title-audio')?.play().catch(e => {});
+            document.getElementById('game-audio')?.pause();
+            document.getElementById('game-audio').currentTime = 0;
             break;
         case Screens.GAME:
+            document.getElementById('game-audio')?.play().catch(e => {});
+            document.getElementById('title-audio')?.pause();
+            document.getElementById('title-audio').currentTime = 0;
             const level = levels[currLevelIndex];
             level.update();
             level.render(renderer);
             if(level.isWon) {
+                document.getElementById('candy-audio').currentTime = 0;
+                document.getElementById('candy-audio').play();
                 document.getElementById('levels').children[currLevelIndex].dataset.win = "";
                 currLevelIndex++;
             }
