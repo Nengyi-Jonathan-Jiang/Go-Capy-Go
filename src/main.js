@@ -39,6 +39,7 @@ for(let i = 0; i < levels.length; i++){
         if (Screens.activeScreen === Screens.LEVELS) {
             Screens.activeScreen = Screens.GAME;
             currLevelIndex = i;
+            levels[currLevelIndex].reset();
         }
     }
     d.appendChild(b);
@@ -69,8 +70,6 @@ requestAnimationFrame(function frame() {
             level.update();
             level.render(renderer);
             if(level.isWon) {
-                document.getElementById('candy-audio').currentTime = 0;
-                document.getElementById('candy-audio').play();
                 document.getElementById('levels').children[currLevelIndex].dataset.win = "";
                 currLevelIndex++;
             }

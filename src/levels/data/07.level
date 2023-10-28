@@ -1,84 +1,69 @@
 /*
-@name "Remote Control"
+@name "Mind Games"
 @background "level-7-background"
 
-# Left block
-control #4fc
 control #fac
-control #fd4
-
-button #fd4 1 6
-button #fac 2 6
-button #4fc 3 6
-door #4fc 4 5 1 -2
-
-platform 0 5 4 0.5
-platform 5 5 1 2.5
-
-pumpkin 0 4
-box 5 4
-
-# Top block
-
-platform 9 -1 1 4
-
-box 10 0
-
-door #fac 10 1 1 -1
-door #4fc 10 2 1 -1
-
-platform 11 -1 1 4
-
-# Bottom block
-
-platform 8 5 2 .5
-
-button #fac 9 6
-
-door #fac 10 5 1 -2
-door #fd4 11 5 1 -2
-
-block 11 3
-block 11 5
-block 11 6
-
-platform 13 4 2 1
-button #fd4 13 3
-
+control #4fc
 control #caf
-button #caf 12 6
-door #caf 11 4 2 -0.5
-box 12 3
+control #fd4
+control #bbb
+
+button #bbb 0 6
+
+door #caf 1 4 1 -3
+
+button #fd4 2 2
+button #caf 2 6
+
+platform 2 3 2 1
+box 2 6
+box 2 2
+door #4fc 4 3 2 -4
+
+
+platform 6 3 2 1
+
+block 7 2
+
+door #fac 7 0 1 2
+platform 7 3 1 3
+
+block 7 6
+
+button #4fc 9 6
+button #fac 8 6
+
+door #fd4 10 0 1 4
+
+door #bbb 11 0 1 -7
+platform 10 4 1 3
+
+pumpkin 0 .5
 */
-new Level("Remote Control", document.getElementById("level-7-background"), function(level, player, berry){
-    level.addPlatformAt(3, 6.25, 4, 0.5);
-    level.addPlatformAt(6.5, 7.25, 1, 2.5);
-    level.addPlatformAt(10.5, 2, 1, 4);
-    level.addPlatformAt(12.5, 2, 1, 4);
-    level.addPlatformAt(10, 6.25, 2, 0.5);
-    level.addPlatformAt(15, 5.5, 2, 1);
-    level.addBoxAt(6.5, 5.5);
-    level.addBoxAt(11.5, 1.5);
-    level.addBoxAt(13.5, 4.5);
-    let doorManager0 = level.addDoorManager("#4fc");
-    doorManager0.linkDoor(level.addDoorAt(5.5, 7, 1, -2))
-    doorManager0.linkDoor(level.addDoorAt(11.5, 3.5, 1, -1))
-    doorManager0.linkButton(level.addButtonAt(4.5, 8))
-    let doorManager1 = level.addDoorManager("#fac");
-    doorManager1.linkDoor(level.addDoorAt(11.5, 2.5, 1, -1))
-    doorManager1.linkDoor(level.addDoorAt(11.5, 7, 1, -2))
-    doorManager1.linkButton(level.addButtonAt(3.5, 8))
+new Level("Mind Games", document.getElementById("level-7-background"), function(level, player, berry){
+    level.addPlatformAt(4, 4.5, 2, 1);
+    level.addPlatformAt(8, 4.5, 2, 1);
+    level.addPlatformAt(8.5, 5.5, 1, 3);
+    level.addPlatformAt(11.5, 6.5, 1, 3);
+    level.addBoxAt(3.5, 7.5);
+    level.addBoxAt(3.5, 3.5);
+    let doorManager0 = level.addDoorManager("#fac");
+    doorManager0.linkDoor(level.addDoorAt(8.5, 2, 1, 2))
+    doorManager0.linkButton(level.addButtonAt(9.5, 8))
+    let doorManager1 = level.addDoorManager("#4fc");
+    doorManager1.linkDoor(level.addDoorAt(6, 6, 2, -4))
     doorManager1.linkButton(level.addButtonAt(10.5, 8))
-    let doorManager2 = level.addDoorManager("#fd4");
-    doorManager2.linkDoor(level.addDoorAt(12.5, 7, 1, -2))
-    doorManager2.linkButton(level.addButtonAt(2.5, 8))
-    doorManager2.linkButton(level.addButtonAt(14.5, 5))
-    let doorManager3 = level.addDoorManager("#caf");
-    doorManager3.linkDoor(level.addDoorAt(13, 5.25, 2, -0.5))
-    doorManager3.linkButton(level.addButtonAt(13.5, 8))
-    level.addBlockAt(12.5, 4.5);
-    level.addBlockAt(12.5, 6.5);
-    level.addBlockAt(12.5, 7.5);
+    let doorManager2 = level.addDoorManager("#caf");
+    doorManager2.linkDoor(level.addDoorAt(2.5, 6.5, 1, -3))
+    doorManager2.linkButton(level.addButtonAt(3.5, 8))
+    let doorManager3 = level.addDoorManager("#fd4");
+    doorManager3.linkDoor(level.addDoorAt(11.5, 3, 1, 4))
+    doorManager3.linkButton(level.addButtonAt(3.5, 4))
+    let doorManager4 = level.addDoorManager("#bbb");
+    doorManager4.linkDoor(level.addDoorAt(12.5, 4.5, 1, -7))
+    doorManager4.linkButton(level.addButtonAt(1.5, 8))
+    level.addBlockAt(8.5, 3.5);
+    level.addBlockAt(8.5, 7.5);
 }, function(level){
-    level.addPumpkinAt(1.5, 5.4);
+    level.addPumpkinAt(1.5, 1.9);
 })

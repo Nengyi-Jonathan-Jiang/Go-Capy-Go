@@ -81,7 +81,7 @@ div.screen[data-active] {
 }
 
 #levels-container {
-    height: calc(var(--d) * 6);
+    max-height: calc(var(--d) * 6);
     width: fit-content;
     margin: calc(var(--d) * 0.6);
     position: relative;
