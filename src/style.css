@@ -160,6 +160,18 @@ div.screen[data-active] {
     transform-origin: bottom;
     transform: scale(50%) translate(-45%, 0);
 }
+#levels-screen::after {
+    content: "";
+    background-image: url("../res/image/guineabow.png");
+    width: 57%;
+    background-repeat: no-repeat;
+    height: 100%;
+    position: absolute;
+    background-size: contain;
+    right: 0;
+    transform-origin: bottom;
+    transform: scale(35%) translate(85%, -15%);
+}
 
 #restart-button, #quit-button {
     position: absolute;
