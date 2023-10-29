@@ -2,6 +2,7 @@ const renderer = new Renderer(document.getElementById('game-canvas'));
 window.onresize = (f => (f(), f))(() => renderer.resize());
 
 let currLevelIndex = 0;
+let wonLevels = new Set;
 
 const Screens = {
     TITLE:       {id: 0, el: document.getElementById('title-screen')},
@@ -72,8 +73,17 @@ requestAnimationFrame(function frame() {
             level.render(renderer);
             if(level.isWon) {
                 document.getElementById('levels').children[currLevelIndex].dataset.win = "";
-                currLevelIndex++;
-                levels[currLevelIndex]?.reset();
+                wonLevels.add(currLevelIndex);
+                for(currLevelIndex = 0; currLevelIndex < levels.length; currLevelIndex++) {
+                    if(!wonLevels.has(currLevelIndex)){
+                        levels[currLevelIndex].reset();
+                        break;
+                    }
+                }
+                if(currLevelIndex === levels.length) {
+                    alert('you beat the game hooray');
+                    Screens.activeScreen = Screens.LEVELS;
+                }
             }
             break;
     }
