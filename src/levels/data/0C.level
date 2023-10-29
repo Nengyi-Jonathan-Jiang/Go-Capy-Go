@@ -1,6 +1,6 @@
 /*
-@name "A Ghostly Helper"
-@background "level-3-background"
+@name "Ghostly Helper"
+@background "tutor-C-background"
 
 platform 4 5 11 0.5
 pumpkin 13 4
@@ -21,7 +21,7 @@ control #fd4
 button #fd4 4 4
 door #fd4 10 6 1 1
 */
-new Level("A Ghostly Helper", document.getElementById("level-3-background"), function(level, player, berry){
+new Level("Ghostly Helper", document.getElementById("tutor-C-background"), function(level, player, berry){
     level.addPlatformAt(10.5, 6.25, 11, 0.5);
     level.addPlatformAt(5.5, 6.5, 1, 1);
     level.addPlatformAt(8.5, 6.5, 1, 1);

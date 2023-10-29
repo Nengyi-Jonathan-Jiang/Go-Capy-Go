@@ -22,10 +22,12 @@
         <div style="display: none">
             <audio id="title-audio" loop><source src="res/audio/title.mp3"></audio>
             <audio id="game-audio" loop><source src="res/audio/game.mp3"></audio>
+            <audio id="win-audio" loop><source src="res/audio/win.mp3"></audio>
 
             <script>
                 document.getElementById('title-audio').volume = 0.1;
                 document.getElementById('game-audio').volume = 0.1;
+                document.getElementById('win-audio').volume = 0.1;
             </script>
 
             <img src="res/image/game/capy.png" alt="" id="capy-img">
@@ -35,6 +37,10 @@
             <img src="res/image/game/block.png" alt="" id="block-img">
             <img src="res/image/game/pump.png" alt="" id="pump-img">
             <img src="res/image/game/candy.png" alt="" id="berry-img">
+            <img src="res/image/backgrounds/level/A.png" alt="" id="tutor-A-background">
+            <img src="res/image/backgrounds/level/B.png" alt="" id="tutor-B-background">
+            <img src="res/image/backgrounds/level/C.png" alt="" id="tutor-C-background">
+            <img src="res/image/backgrounds/level/D.png" alt="" id="tutor-D-background">
             <img src="res/image/backgrounds/level/1.png" alt="" id="level-1-background">
             <img src="res/image/backgrounds/level/2.png" alt="" id="level-2-background">
             <img src="res/image/backgrounds/level/3.png" alt="" id="level-3-background">
@@ -61,6 +67,7 @@
                         <button id="quit-button"></button>
                     </div>
                 </div>
+                <div class="screen" id="end-screen"></div>
             </div>
         </div>
         <script src="src/gameObjects.js"></script>
