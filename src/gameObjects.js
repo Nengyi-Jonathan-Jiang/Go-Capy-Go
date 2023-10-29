@@ -63,7 +63,7 @@ class BlockObject extends GameObject {
     constructor(x, y) {
         super(new Vec2(1, 1), BlockObject.image, {isStatic: true});
         this.position = new Vec2(x, y);
-        this.collisionLayer = 1;
+        this.collisionLayer = 3;
     }
 }
 

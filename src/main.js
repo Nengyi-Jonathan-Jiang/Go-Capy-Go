@@ -35,15 +35,17 @@ for(let i = 0; i < levels.length; i++){
     let d = document.createElement('div');
     d.dataset.desc = levels[i].name;
     let b = document.createElement('button');
-    b.onclick = _ => {
+    d.onclick = _ => {
         if (Screens.activeScreen === Screens.LEVELS) {
             Screens.activeScreen = Screens.GAME;
             currLevelIndex = i;
+            levels[currLevelIndex].reset();
         }
     }
     d.appendChild(b);
     let s = document.createElement('span');
     s.innerText = `${i + 1}. ${levels[i].name}`;
+    toImage(`${i + 1}. ${levels[i].name}`.toUpperCase()).then(i => s.replaceWith(i)).catch()
     d.appendChild(s);
 
     document.getElementById('levels').appendChild(d);
@@ -52,8 +54,19 @@ for(let i = 0; i < levels.length; i++){
 requestAnimationFrame(function frame() {
     switch (Screens.activeScreen) {
         case Screens.TITLE:
+            document.getElementById('title-audio')?.play().catch(e => {});
+            document.getElementById('game-audio')?.pause();
+            document.getElementById('game-audio').currentTime = 0;
+            break;
+        case Screens.LEVELS:
+            document.getElementById('title-audio')?.play().catch(e => {});
+            document.getElementById('game-audio')?.pause();
+            document.getElementById('game-audio').currentTime = 0;
             break;
         case Screens.GAME:
+            document.getElementById('game-audio')?.play().catch(e => {});
+            document.getElementById('title-audio')?.pause();
+            document.getElementById('title-audio').currentTime = 0;
             const level = levels[currLevelIndex];
             level.update();
             level.render(renderer);
@@ -65,3 +78,7 @@ requestAnimationFrame(function frame() {
     }
     requestAnimationFrame(frame);
 })
+
+window.onblur = _ => {
+    document.querySelectorAll('audio').forEach(i => i.pause());
+}

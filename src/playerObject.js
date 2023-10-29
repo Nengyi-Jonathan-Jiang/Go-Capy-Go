@@ -6,7 +6,7 @@ class PlayerObject extends GameObject {
     constructor() {
         super(new Vec2(0.995, 0.85), PlayerObject.image, {isStatic: false, friction: 0});
         this.facing = 1;
-        this.collisionMask = [0, 1];
+        this.collisionMask = [0, 3];
 
         this.sensor = new GameObject(new Vec2(0.9, .01), null);
     }

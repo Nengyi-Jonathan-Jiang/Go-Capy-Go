@@ -56,6 +56,7 @@ class ButtonObject extends GameObject {
         this.position = new Vec2(x, y);
         this.collisionLayer = 31;
         this.color = '#f00'
+        this.sensor = new GameObject(new Vec2(0.8, 0.05), null);
     }
 
     draw(ctx) {
@@ -68,7 +69,10 @@ class ButtonObject extends GameObject {
     }
 
     get isPressed() {
-        return !!this.engine.gameObjects.find(i => i !== this && (i instanceof BoxObject || i instanceof PlayerObject || i instanceof ShadowPlayerObject) && this.isCollidingWith(i));
+        this.sensor.position = this.position.plus(new Vec2(0, -0.075));
+        return !!this.engine.gameObjects.find(i => i !== this && (i instanceof BoxObject || i instanceof PlayerObject || i instanceof ShadowPlayerObject) &&
+            this.sensor.isCollidingWith(i)
+        );
     }
 }
 

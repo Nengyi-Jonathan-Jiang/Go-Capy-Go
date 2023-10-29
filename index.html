@@ -2,12 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Go Capy Go</title>
+        <title>Go Capy Go!</title>
         <link rel="stylesheet" type="text/css" href="src/style.css">
 
         <!-- Physics engine at https://brm.io/matter-js/ -->
         <script src="src/lib/matter.js"></script>
-        <link rel="icon" type="image/x-icon" href="res/image/capy.png">
+        <link rel="icon" type="image/x-icon" href="res/image/game/capy.png">
 
         <script src="src/lib/wrap/Vec2.js"></script>
         <script src="src/lib/wrap/GameObject.js"></script>
@@ -15,29 +15,39 @@
         <script src="src/lib/wrap/Renderer.js"></script>
 
         <script src="src/lib/events.js"></script>
+
     </head>
     <body>
+        <script src="src/generate-text.js"></script>
         <div style="display: none">
-            <img src="res/image/capy.png" alt="" id="capy-img">
-            <img src="res/image/mara.png" alt="" id="mara-img">
-            <img src="res/image/guinea.png" alt="" id="guinea-img">
-            <img src="res/image/box.png" alt="" id="box-img">
-            <img src="res/image/block.png" alt="" id="block-img">
-            <img src="res/image/pump.png" alt="" id="pump-img">
-            <img src="res/image/berry.png" alt="" id="berry-img">
-            <img src="res/image/level/1.png" alt="" id="level-1-background">
-            <img src="res/image/level/2.png" alt="" id="level-2-background">
-            <img src="res/image/level/3.png" alt="" id="level-3-background">
-            <img src="res/image/level/4.png" alt="" id="level-4-background">
-            <img src="res/image/level/5.png" alt="" id="level-5-background">
-            <img src="res/image/level/6.png" alt="" id="level-6-background">
-            <img src="res/image/level/7.png" alt="" id="level-7-background">
+            <audio id="title-audio" loop><source src="res/audio/title.mp3"></audio>
+            <audio id="game-audio" loop><source src="res/audio/game.mp3"></audio>
+
+            <script>
+                document.getElementById('title-audio').volume = 0.1;
+                document.getElementById('game-audio').volume = 0.1;
+            </script>
+
+            <img src="res/image/game/capy.png" alt="" id="capy-img">
+            <img src="res/image/game/mara.png" alt="" id="mara-img">
+            <img src="res/image/game/guinea.png" alt="" id="guinea-img">
+            <img src="res/image/game/box.png" alt="" id="box-img">
+            <img src="res/image/game/block.png" alt="" id="block-img">
+            <img src="res/image/game/pump.png" alt="" id="pump-img">
+            <img src="res/image/game/candy.png" alt="" id="berry-img">
+            <img src="res/image/backgrounds/level/1.png" alt="" id="level-1-background">
+            <img src="res/image/backgrounds/level/2.png" alt="" id="level-2-background">
+            <img src="res/image/backgrounds/level/3.png" alt="" id="level-3-background">
+            <img src="res/image/backgrounds/level/4.png" alt="" id="level-4-background">
+            <img src="res/image/backgrounds/level/5.png" alt="" id="level-5-background">
+            <img src="res/image/backgrounds/level/6.png" alt="" id="level-6-background">
+            <img src="res/image/backgrounds/level/7.png" alt="" id="level-7-background">
         </div>
         <div id="game">
             <div id="screens">
                 <div class="screen" id="title-screen" data-active></div>
                 <div class="screen" id="levels-screen">
-                    <div>Level select</div>
+                    <div id="level-select-h"><span id="level-select-t">LEVEL SELECT</span></div>
                     <div id="levels-container">
                         <div id="levels"></div>
                     </div>
@@ -58,5 +68,11 @@
         <script src="src/game.js"></script>
         <script src="src/levels/levels.min.js"></script>
         <script src="src/main.js"></script>
+
+        <script>
+            toImage('LEVEL SELECT').then(img => {
+                document.getElementById('level-select-t').replaceWith(img);
+            })
+        </script>
     </body>
 </html>
