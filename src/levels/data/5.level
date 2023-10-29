@@ -1,5 +1,5 @@
 /*
 @name "UNKNOWN"
-@background "level-5-background"
+@background "level-4-background"
 */
-new Level("UNKNOWN", document.getElementById("level-5-background"))
+new Level("UNKNOWN", document.getElementById("level-4-background"))
