@@ -34,15 +34,8 @@ async function toImage(text) {
             x++;
         }
     }
-    console.log(canvas);
     let url = canvas.toDataURL();
     let image = document.createElement('img');
     image.src = url;
     return image;
-}
-
-function createText(text='HELLO WORLD'){
-    let res = document.createElement('span');
-    res.innerText = text;
-
 }

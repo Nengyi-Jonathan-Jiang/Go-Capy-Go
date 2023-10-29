@@ -1,0 +1,40 @@
+/*
+@name "Ghostly Helper"
+@background "tutor-C-background"
+
+platform 4 5 11 0.5
+pumpkin 13 4
+
+platform 4 5 1 1
+platform 7 5 1 1
+platform 10 5 1 1
+
+control #fac
+button #fac 10 4
+door #fac 4 6 1 1
+
+control #4fc
+button #4fc 7 4
+door #4fc 7 6 1 1
+
+control #fd4
+button #fd4 4 4
+door #fd4 10 6 1 1
+*/
+new Level("Ghostly Helper", document.getElementById("tutor-C-background"), function(level, player, berry){
+    level.addPlatformAt(10.5, 6.25, 11, 0.5);
+    level.addPlatformAt(5.5, 6.5, 1, 1);
+    level.addPlatformAt(8.5, 6.5, 1, 1);
+    level.addPlatformAt(11.5, 6.5, 1, 1);
+    let doorManager0 = level.addDoorManager("#fac");
+    doorManager0.linkDoor(level.addDoorAt(5.5, 7.5, 1, 1))
+    doorManager0.linkButton(level.addButtonAt(11.5, 6))
+    let doorManager1 = level.addDoorManager("#4fc");
+    doorManager1.linkDoor(level.addDoorAt(8.5, 7.5, 1, 1))
+    doorManager1.linkButton(level.addButtonAt(8.5, 6))
+    let doorManager2 = level.addDoorManager("#fd4");
+    doorManager2.linkDoor(level.addDoorAt(11.5, 7.5, 1, 1))
+    doorManager2.linkButton(level.addButtonAt(5.5, 6))
+}, function(level){
+    level.addPumpkinAt(14.5, 5.4);
+})

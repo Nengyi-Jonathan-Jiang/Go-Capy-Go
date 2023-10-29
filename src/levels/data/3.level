@@ -1,6 +1,6 @@
 /*
-@name "Scarlet Fish"
-@background "level-5-background"
+@name "Too Slippery"
+@background "level-3-background"
 
 control #fac
 button #fac 0 6
@@ -22,7 +22,7 @@ box 3 4
 box 3 6
 box 7 0
 */
-new Level("Scarlet Fish", document.getElementById("level-5-background"), function(level, player, berry){
+new Level("Too Slippery", document.getElementById("level-3-background"), function(level, player, berry){
     level.addPlatformAt(4.5, 6.25, 3, 0.5);
     level.addPlatformAt(8.5, 6.5, 1, 1);
     level.addPlatformAt(10, 4.25, 4, 0.5);

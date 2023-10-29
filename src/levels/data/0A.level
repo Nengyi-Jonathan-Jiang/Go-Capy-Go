@@ -1,0 +1,6 @@
+/*
+@name "Where Am I?"
+@background "tutor-A-background"
+
+*/
+new Level("Where Am I?", document.getElementById("tutor-A-background"))

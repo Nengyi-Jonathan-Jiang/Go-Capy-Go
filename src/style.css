@@ -20,6 +20,7 @@ div#game {
     height:           calc(var(--d) * 9);
     position:         relative;
     background-color: white;
+    overflow: hidden;
 }
 
 div#game > * {
@@ -64,6 +65,10 @@ div.screen[data-active] {
     color: white;
 }
 
+#end-screen {
+    background-color: lawngreen;
+}
+
 #game-screen>* {
     width: 100%;
     height: 100%;
@@ -80,30 +85,26 @@ div.screen[data-active] {
 }
 
 #levels-screen>div:nth-child(2) {
-    font-size: calc(var(--d) * 0.5);
+    font-size: calc(var(--d) * 0.3);
     font-family: monospace;
 }
 
 #levels>div>img {
-    height: calc(var(--d) * 0.5);
+    height: calc(var(--d) * 0.35);
 }
 
 #levels-container {
-    max-height: calc(var(--d) * 6);
+    max-height: calc(var(--d) * 7);
     width: fit-content;
-    margin: calc(var(--d) * 0.6);
+    margin: calc(var(--d) * 0.2);
     position: relative;
-
-    padding: 0 calc(var(--d) * 0.1);
-
-    border-top: calc(var(--d) * 0.05) solid white;
-    border-bottom: calc(var(--d) * 0.05) solid white;
+    /* padding: 0 calc(var(--d) * 0.1); */
+    /* border-top: calc(var(--d) * 0.05) solid white; */
+    /* border-bottom: calc(var(--d) * 0.05) solid white; */
 }
 
 #levels {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    width: calc(var(--d) * 8.5);
+    width: calc(var(--d) * 8.2);
     height: 100%;
 }
 
@@ -113,8 +114,8 @@ div.screen[data-active] {
 
 #levels-container::after {
     pointer-events: none;
-    content: "";
-    /*background: linear-gradient(#215d9a, #215d9a00, #215d9a);*/
+    /*content: "";*/
+    background: linear-gradient(#215d9a, #215d9a00, #215d9a);
     width: 100%;
     height: 100%;
     top: 0;
@@ -133,14 +134,18 @@ div.screen[data-active] {
 
 #levels>div::after {
     position: absolute;
-    right: 0;
+    right: calc(var(--d) * 0.1);
     content: "";
     background-image: url("../res/image/icon/levelcandygray.png");
     display: inline-block;
-    width: calc(var(--d) * 0.5);
-    height: calc(var(--d) * 0.5);
+    width: calc(var(--d) * 0.35);
+    height: calc(var(--d) * 0.35);
     background-size: cover;
     image-rendering: pixelated;
+}
+
+#levels>div:hover::after {
+    right: calc(var(--d) * 0.05);
 }
 
 #levels>div[data-win]::after {
@@ -151,8 +156,8 @@ div.screen[data-active] {
     border: 0;
     outline: none;
     background: url("../res/image/icon/play.png");
-    width: calc(var(--d) * 0.4);
-    height: calc(var(--d) * 0.4);
+    width: calc(var(--d) * 0.35);
+    height: calc(var(--d) * 0.35);
     background-size: cover;
     margin-right: calc(var(--d) * 0.2);
 }
@@ -200,6 +205,13 @@ div.screen[data-active] {
     right: 0;
 }
 
+#levels>div {
+    padding: calc(var(--d) * 0.1);
+    box-sizing: border-box;
+    margin: calc(var(--d) * -0.05) 0;
+}
+
 #levels>div:hover {
-    text-decoration: underline;
+    border: calc(var(--d) * 0.05) solid white;
+    padding: calc(var(--d) * 0.05);
 }

@@ -1,6 +1,6 @@
 /*
 @name "Semipermeable"
-@background "level-6-background"
+@background "level-4-background"
 
 control #fac
 control #fd4
@@ -31,7 +31,7 @@ door #caf 5 4.5 3 -1
 
 pumpkin 9 2
 */
-new Level("Semipermeable", document.getElementById("level-6-background"), function(level, player, berry){
+new Level("Semipermeable", document.getElementById("tutor-D-background"), function(level, player, berry){
     level.addPlatformAt(3.5, 7, 1, 2);
     level.addPlatformAt(5, 5.75, 2, 0.5);
     level.addPlatformAt(8, 4.25, 6, 0.5);
