@@ -1,6 +1,6 @@
 /*
 @name "Sugar Rush"
-@background "level-6-background"
+@background "level-5-background"
 
 control #fac
 control #fd4
@@ -40,7 +40,7 @@ door #caf 8 5 2 -2
 
 pumpkin 6 6
 */
-new Level("Sugar Rush", document.getElementById("level-6-background"), function(level, player, berry){
+new Level("Sugar Rush", document.getElementById("level-5-background"), function(level, player, berry){
     level.addPlatformAt(9, 4.75, 8, 0.5);
     level.addPlatformAt(11.5, 7, 1, 2);
     level.addPlatformAt(13.5, 3, 1, 4);

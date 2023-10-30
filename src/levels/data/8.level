@@ -1,6 +1,6 @@
 /*
 @name "Remote Control"
-@background "level-9-background"
+@background "level-8-background"
 
 # Left block
 control #4fc
@@ -50,7 +50,7 @@ button #caf 12 6
 door #caf 11 4 2 -0.5
 box 12 3
 */
-new Level("Remote Control", document.getElementById("level-9-background"), function(level, player, berry){
+new Level("Remote Control", document.getElementById("level-8-background"), function(level, player, berry){
     level.addPlatformAt(3, 6.25, 4, 0.5);
     level.addPlatformAt(6.5, 7.25, 1, 2.5);
     level.addPlatformAt(10.5, 2, 1, 4);
