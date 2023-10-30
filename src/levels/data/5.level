@@ -1,5 +1,74 @@
 /*
-@name "UNKNOWN"
-@background "level-5-background"
+@name "Sugar Rush"
+@background "level-6-background"
+
+control #fac
+control #fd4
+control #caf
+control #4fc
+control #aaa
+
+platform 4 3.5 8 .5
+box 5 4
+box 8 2.5
+platform 10 5 1 2
+platform 12 0 1 4
+platform 3 5 4 0.5
+platform 7 5 1 2
+
+door #fac 11 5 1 -2
+block 12 4
+platform 12 5 2 1
+platform 13 2 1 2
+button #fac 13 4
+platform 4 3 1 1
+
+button #fd4 0 6
+door #fd4 4 4 1 1
+
+door #aaa 6 4 1 1
+button #aaa 5 2.5
+
+door #4fc 13 1 1 -1
+button #4fc 8 2.5
+button #4fc 11 2.5
+
+box 13 0
+
+button #caf 13 0
+door #caf 8 5 2 -2
+
+pumpkin 6 6
 */
-new Level("UNKNOWN", document.getElementById("level-5-background"))
+new Level("Sugar Rush", document.getElementById("level-6-background"), function(level, player, berry){
+    level.addPlatformAt(9, 4.75, 8, 0.5);
+    level.addPlatformAt(11.5, 7, 1, 2);
+    level.addPlatformAt(13.5, 3, 1, 4);
+    level.addPlatformAt(6, 6.25, 4, 0.5);
+    level.addPlatformAt(8.5, 7, 1, 2);
+    level.addPlatformAt(14, 6.5, 2, 1);
+    level.addPlatformAt(14.5, 4, 1, 2);
+    level.addPlatformAt(5.5, 4.5, 1, 1);
+    level.addBoxAt(6.5, 5.5);
+    level.addBoxAt(9.5, 4);
+    level.addBoxAt(14.5, 1.5);
+    let doorManager0 = level.addDoorManager("#fac");
+    doorManager0.linkDoor(level.addDoorAt(12.5, 7, 1, -2))
+    doorManager0.linkButton(level.addButtonAt(14.5, 6))
+    let doorManager1 = level.addDoorManager("#fd4");
+    doorManager1.linkDoor(level.addDoorAt(5.5, 5.5, 1, 1))
+    doorManager1.linkButton(level.addButtonAt(1.5, 8))
+    let doorManager2 = level.addDoorManager("#caf");
+    doorManager2.linkDoor(level.addDoorAt(10, 7, 2, -2))
+    doorManager2.linkButton(level.addButtonAt(14.5, 2))
+    let doorManager3 = level.addDoorManager("#4fc");
+    doorManager3.linkDoor(level.addDoorAt(14.5, 2.5, 1, -1))
+    doorManager3.linkButton(level.addButtonAt(9.5, 4.5))
+    doorManager3.linkButton(level.addButtonAt(12.5, 4.5))
+    let doorManager4 = level.addDoorManager("#aaa");
+    doorManager4.linkDoor(level.addDoorAt(7.5, 5.5, 1, 1))
+    doorManager4.linkButton(level.addButtonAt(6.5, 4.5))
+    level.addBlockAt(13.5, 5.5);
+}, function(level){
+    level.addPumpkinAt(7.5, 7.4);
+})

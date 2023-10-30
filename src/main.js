@@ -26,8 +26,9 @@ const Screens = {
 document.getElementById('title-screen').onclick = _ => {
     if(Screens.activeScreen === Screens.TITLE) Screens.activeScreen = Screens.LEVELS;
 }
-document.getElementById('restart-button').onclick = _ => {
+document.getElementById('restart-button').onclick = ({target}) => {
     if(Screens.activeScreen === Screens.GAME) levels[currLevelIndex].reset();
+    target.blur();
 }
 document.getElementById('quit-button').onclick = _ => {
     if(Screens.activeScreen === Screens.GAME) Screens.activeScreen = Screens.LEVELS
