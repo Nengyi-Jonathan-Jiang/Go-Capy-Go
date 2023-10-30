@@ -1,6 +1,6 @@
 /*
 @name "Mind Games"
-@background "level-7-background"
+@background "level-6-background"
 
 control #fac
 control #4fc
@@ -41,7 +41,7 @@ platform 10 4 1 3
 
 pumpkin 5.5 1
 */
-new Level("Mind Games", document.getElementById("level-7-background"), function(level, player, berry){
+new Level("Mind Games", document.getElementById("level-6-background"), function(level, player, berry){
     level.addPlatformAt(4, 5.25, 2, 0.5);
     level.addPlatformAt(8, 5.25, 2, 0.5);
     level.addPlatformAt(8.5, 6, 1, 2);
