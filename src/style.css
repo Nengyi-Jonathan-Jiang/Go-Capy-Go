@@ -66,7 +66,8 @@ div.screen[data-active] {
 }
 
 #end-screen {
-    background-color: lawngreen;
+    background-image: url("../res/image/backgrounds/win.png");
+    background-size: cover;
 }
 
 #game-screen>* {
