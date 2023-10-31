@@ -156,7 +156,7 @@ class Level {
         }
         else this.player.move(0);
 
-        if(events.keysDown[' ']){
+        if(events.keysDown[' '] || events.keysDown['w']){
             this.player.tryJump(this.engine);
         }
         if(events.keysDown['r']) {
