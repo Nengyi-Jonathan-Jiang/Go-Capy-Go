@@ -148,15 +148,27 @@ class Level {
         this.recorders.forEach(i => i.update());
         this.engine.update();
 
-        if(events.keysDown['a']){
+        let moveLeft = events.keysDown['a'] || events.activeTouches.find(
+            i => ~~(i.clientX * 3 / window.innerWidth) === 0
+        );
+        let moveRight = events.keysDown['d'] || events.activeTouches.find(
+            i => ~~(i.clientX * 3 / window.innerWidth) === 2
+        );
+        let moveJump = events.keysDown['w'] || events.keysDown[' '] || events.activeTouches.find(
+            i => ~~(i.clientX * 3 / window.innerWidth) === 1
+        );
+
+        if(moveLeft){
             this.player.move(-1)
         }
-        else if(events.keysDown['d']){
+        else if(moveRight){
             this.player.move(1)
         }
-        else this.player.move(0);
+        else {
+            this.player.move(0);
+        }
 
-        if(events.keysDown[' ']){
+        if(moveJump){
             this.player.tryJump(this.engine);
         }
         if(events.keysDown['r']) {
