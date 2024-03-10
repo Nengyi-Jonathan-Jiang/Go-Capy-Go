@@ -6,7 +6,6 @@ let wonLevels = new Set;
 
 document.addEventListener('dblclick', e => {
     document.getElementById('game').requestFullscreen();
-    levels[currLevelIndex]?.reset();
 });
 
 const Screens = {
