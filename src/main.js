@@ -4,6 +4,11 @@ window.onresize = (f => (f(), f))(() => renderer.resize());
 let currLevelIndex = 0;
 let wonLevels = new Set;
 
+document.addEventListener('dblclick', e => {
+    document.getElementById('game').requestFullscreen();
+    levels[currLevelIndex]?.reset();
+});
+
 const Screens = {
     TITLE:       document.getElementById('title-screen'),
     LEVELS:      document.getElementById('levels-screen'),

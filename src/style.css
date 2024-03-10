@@ -1,34 +1,35 @@
 body {
-    background-color: black;
-    position:         absolute;
-    top:              0;
-    left:             0;
-    right:            0;
-    bottom:           0;
-    margin:           0;
-    padding:          0;
-    display:          flex;
-    justify-content:  center;
-    align-items:      center;
-    overflow:         hidden;
-    user-select: none;
+    position:        absolute;
+    top:             0;
+    left:            0;
+    right:           0;
+    bottom:          0;
+    margin:          0;
+    padding:         0;
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+    overflow:        hidden;
+    user-select:     none;
+    touch-action:    manipulation;
 }
 
 div#game {
-    --d: min(100vw / 16, 100vh / 9);
-    width:            calc(var(--d) * 16);
-    height:           calc(var(--d) * 9);
+    width:            100vw;
+    height:           100vh;
     position:         relative;
-    background-color: white;
-    overflow: hidden;
+    background-color: black;
+    overflow:         hidden;
+    display:          flex;
+    align-items:      center;
+    justify-content:  center;
 }
 
 div#game > * {
-    width:    100%;
-    height:   100%;
-    position: absolute;
-    top:      0;
-    left:     0;
+    --d:      min(100vw / 16, 100vh / 9);
+    width:    calc(var(--d) * 16);
+    height:   calc(var(--d) * 9);
+    position: relative;
 }
 
 div#restart-button {
@@ -36,76 +37,77 @@ div#restart-button {
     height:           calc(100% / 9);
     background-image: url("../res/image/icon/restart.png");
     background-size:  cover;
-    position: absolute;
-    right: 0;
+    position:         absolute;
+    right:            0;
 }
 
 div.screen {
-    width: 100%;
-    height: 100%;
-    display: none;
+    width:    100%;
+    height:   100%;
+    display:  none;
     position: absolute;
 }
 
 div.screen[data-active] {
-    display: flex;
-    flex-direction: column;
+    display:         flex;
+    flex-direction:  column;
     justify-content: center;
-    align-items: center;
+    align-items:     center;
 }
 
 #title-screen {
-    background: url("../res/image/backgrounds/homescreen.png");
-    color: white;
+    background:      url("../res/image/backgrounds/homescreen.png");
+    color:           white;
     background-size: cover;
 }
 
 #levels-screen {
     background: #215d9a;
-    color: white;
+    color:      white;
 }
 
 #end-screen {
     background-image: url("../res/image/backgrounds/win.png");
-    background-size: cover;
+    background-size:  cover;
 }
 
-#game-screen>* {
-    width: 100%;
-    height: 100%;
+#game-screen > * {
+    width:    100%;
+    height:   100%;
     position: absolute;
 }
 
-#levels-screen>div:first-child {
-    font-size: calc(var(--d));
+#levels-screen > div:first-child {
+    font-size:   calc(var(--d));
     font-family: monospace;
-    max-width: 50%;
+    max-width:   50%;
 }
-#levels-screen>div:first-child>img {
+
+#levels-screen > div:first-child > img {
     width: 100%;
 }
 
-#levels-screen>div:nth-child(2) {
-    font-size: calc(var(--d) * 0.3);
+#levels-screen > div:nth-child(2) {
+    font-size:   calc(var(--d) * 0.3);
     font-family: monospace;
 }
 
-#levels>div>img {
+#levels > div > img {
     height: calc(var(--d) * 0.35);
 }
 
 #levels-container {
     max-height: calc(var(--d) * 7);
-    width: fit-content;
-    margin: calc(var(--d) * 0.2);
-    position: relative;
+    width:      fit-content;
+    margin:     calc(var(--d) * 0.2);
+    position:   relative;
     /* padding: 0 calc(var(--d) * 0.1); */
     /* border-top: calc(var(--d) * 0.05) solid white; */
     /* border-bottom: calc(var(--d) * 0.05) solid white; */
 }
 
 #levels {
-    width: calc(var(--d) * 8.2);
+    width:  calc(var(--d) * 8.2);
     height: 100%;
 }
 
@@ -116,103 +118,106 @@ div.screen[data-active] {
 #levels-container::after {
     pointer-events: none;
     /*content: "";*/
-    background: linear-gradient(#215d9a, #215d9a00, #215d9a);
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    position: absolute;
+    background:     linear-gradient(#215d9a, #215d9a00, #215d9a);
+    width:          100%;
+    height:         100%;
+    top:            0;
+    left:           0;
+    position:       absolute;
 }
 
-#levels>div {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-top: calc(var(--d) * 0.05);
+#levels > div {
+    width:         100%;
+    display:       flex;
+    align-items:   center;
+    position:      relative;
+    margin-top:    calc(var(--d) * 0.05);
     margin-bottom: calc(var(--d) * 0.05);
 }
 
-#levels>div::after {
-    position: absolute;
-    right: calc(var(--d) * 0.1);
-    content: "";
+#levels > div::after {
+    position:         absolute;
+    right:            calc(var(--d) * 0.1);
+    content:          "";
     background-image: url("../res/image/icon/levelcandygray.png");
-    display: inline-block;
-    width: calc(var(--d) * 0.35);
-    height: calc(var(--d) * 0.35);
-    background-size: cover;
-    image-rendering: pixelated;
+    display:          inline-block;
+    width:            calc(var(--d) * 0.35);
+    height:           calc(var(--d) * 0.35);
+    background-size:  cover;
+    image-rendering:  pixelated;
 }
 
-#levels>div:hover::after {
+#levels > div:hover::after {
     right: calc(var(--d) * 0.05);
 }
 
-#levels>div[data-win]::after {
+#levels > div[data-win]::after {
     background-image: url("../res/image/icon/levelcandy.png");
 }
 
-#levels>div>button {
-    border: 0;
-    outline: none;
-    background: url("../res/image/icon/play.png");
-    width: calc(var(--d) * 0.35);
-    height: calc(var(--d) * 0.35);
+#levels > div > button {
+    border:          0;
+    outline:         none;
+    background:      url("../res/image/icon/play.png");
+    width:           calc(var(--d) * 0.35);
+    height:          calc(var(--d) * 0.35);
     background-size: cover;
-    margin-right: calc(var(--d) * 0.2);
+    margin-right:    calc(var(--d) * 0.2);
 }
 
 #levels-screen::before {
-    content: "";
+    content:          "";
     background-image: url("../res/image/backgrounds/capybarapumpkin.png");
-    width: 43%;
-    height: 100%;
-    position: absolute;
-    background-size: contain;
-    left: 0;
+    width:            43%;
+    height:           100%;
+    position:         absolute;
+    background-size:  contain;
+    left:             0;
     transform-origin: bottom;
-    transform: scale(50%) translate(-45%, 0);
+    transform:        scale(50%) translate(-45%, 0);
 }
+
 #levels-screen::after {
-    content: "";
-    background-image: url("../res/image/backgrounds/guineabow.png");
-    width: 57%;
+    content:           "";
+    background-image:  url("../res/image/backgrounds/guineabow.png");
+    width:             57%;
     background-repeat: no-repeat;
-    height: 100%;
-    position: absolute;
-    background-size: contain;
-    right: 0;
-    transform-origin: bottom;
-    transform: scale(35%) translate(85%, -15%);
+    height:            100%;
+    position:          absolute;
+    background-size:   contain;
+    right:             0;
+    transform-origin:  bottom;
+    transform:         scale(35%) translate(85%, -15%);
 }
 
 #restart-button, #quit-button {
-    position: absolute;
-    width: calc(var(--d) * 0.5);
-    height: calc(var(--d) * 0.5);
-    border: 0;
-    outline: 0;
-    padding: 0;
-    margin: calc(var(--d) * 0.25);
+    position:        absolute;
+    width:           calc(var(--d) * 0.5);
+    height:          calc(var(--d) * 0.5);
+    border:          0;
+    outline:         0;
+    padding:         0;
+    margin:          calc(var(--d) * 0.25);
     background-size: cover !important;
 }
+
 #restart-button {
     background: url("../res/image/icon/restart.png");
-    right: var(--d);
+    right:      var(--d);
 }
+
 #quit-button {
     background: url("../res/image/icon/quit.png");
-    right: 0;
+    right:      0;
 }
 
-#levels>div {
-    padding: calc(var(--d) * 0.1);
+#levels > div {
+    padding:    calc(var(--d) * 0.1);
     box-sizing: border-box;
-    margin: calc(var(--d) * -0.05) 0;
+    margin:     calc(var(--d) * -0.05) 0;
 }
 
-#levels>div:hover {
-    border: calc(var(--d) * 0.05) solid white;
+#levels > div:hover {
+    border:  calc(var(--d) * 0.05) solid white;
     padding: calc(var(--d) * 0.05);
 }
