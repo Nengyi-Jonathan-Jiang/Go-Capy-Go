@@ -149,13 +149,13 @@ class Level {
         this.engine.update();
 
         let moveLeft = events.keysDown['a'] || events.activeTouches.find(
-            i => ~~(i.clientX * 3 / window.innerWidth) === 0
+            i => i.clientX < window.innerWidth * .35
         );
         let moveRight = events.keysDown['d'] || events.activeTouches.find(
-            i => ~~(i.clientX * 3 / window.innerWidth) === 2
+            i => i.clientX > window.innerWidth * .65
         );
         let moveJump = events.keysDown['w'] || events.keysDown[' '] || events.activeTouches.find(
-            i => ~~(i.clientX * 3 / window.innerWidth) === 1
+            i => i.clientY < window.innerHeight / 2
         );
 
         if(moveLeft){
