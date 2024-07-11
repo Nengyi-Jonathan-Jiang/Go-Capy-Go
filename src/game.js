@@ -144,9 +144,9 @@ class Level {
         return doorManager;
     }
 
-    update() {
+    update(deltaTime) {
         this.recorders.forEach(i => i.update());
-        this.engine.update();
+        this.engine.update(deltaTime);
 
         let moveLeft = events.keysDown['a'] || events.activeTouches.find(
             i => i.clientX < window.innerWidth * .35
