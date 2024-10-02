@@ -20,14 +20,16 @@ class PlayerObject extends GameObject {
     }
 
     move(direction) {
-        this.vx = direction * PlayerObject.PLAYER_SPEED;
+        this.vx = direction * PlayerObject.PLAYER_SPEED * (
+            events.keysDown['shift'] ? 0.5 : 1
+        );
         if (direction !== 0) this.facing = direction;
         this.position = this.position.plus(new Vec2(direction * 0.001, 0));
     }
 
     /** @param {GameEngine} engine */
     tryJump(engine) {
-        if(this.isGrounded(engine)){
+        if (this.isGrounded(engine)) {
             this.vy = -PlayerObject.PLAYER_JUMP_SPEED;
         }
     }
