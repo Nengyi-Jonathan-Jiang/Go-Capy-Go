@@ -67,7 +67,11 @@ for(let i = 0; i < levels.length; i++){
     document.getElementById('levels').appendChild(d);
 }
 
-requestAnimationFrame(function frame() {
+let last_time = 0;
+requestAnimationFrame(function frame(currTime) {
+    const delta_time = currTime - last_time;
+    last_time = currTime;
+
     switch (Screens.activeScreen) {
         case Screens.TITLE:
         case Screens.LEVELS:
@@ -86,7 +90,7 @@ requestAnimationFrame(function frame() {
 
             /** @type {Level} */
             const level = levels[currLevelIndex];
-            level.update();
+            level.update(delta_time);
             level.render(renderer);
             if(level.isWon) {
                 document.getElementById('levels').children[currLevelIndex].dataset.win = "";
