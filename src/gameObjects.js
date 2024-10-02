@@ -49,7 +49,15 @@ class BoxObject extends GameObject {
         super(new Vec2(1, 1), BoxObject.image);
         Matter.Body.setMass(this.body, 0.01);
         this.position = new Vec2(x, y);
-        this.collisionMask = [0, 1];
+        this.collisionMask = [0, 5];
+    }
+
+    update(engine, deltaTime) {
+        // super.update(engine, deltaTime);
+        let max_speed = PlayerObject.PLAYER_SPEED * 0.8;
+        if(Math.abs(this.vx) >= max_speed) {
+            this.vx /= Math.abs(this.vx) / max_speed;
+        }
     }
 }
 
@@ -77,7 +85,7 @@ class FrameObject extends GameObject {
     constructor(x, y) {
         super(new Vec2(1, 1), FrameObject.image, {isStatic: true});
         this.position = new Vec2(x, y);
-        this.collisionLayer = 1;
+        this.collisionLayer = 5;
         this.zIndex = 10;
     }
 }
