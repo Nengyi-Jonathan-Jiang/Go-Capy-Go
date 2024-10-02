@@ -77,6 +77,13 @@
                 height:           50px;
                 background-size:  contain;
             }
+			.frame {
+				background-image: url("res/image/game/frame.png");
+				position:         absolute;
+				width:            50px;
+				height:           50px;
+				background-size:  contain;
+			}
 
             .button {
                 position:         absolute;
@@ -145,6 +152,7 @@
             <img src="res/image/game/mara.png" alt="" id="mara-img">
             <img src="res/image/game/guinea.png" alt="" id="guinea-img">
             <img src="res/image/game/box.png" alt="" id="box-img">
+			<img src="res/image/game/frame.png" alt="" id="frame-img">
             <img src="res/image/game/pump.png" alt="" id="pump-img">
             <img src="res/image/game/candy.png" alt="" id="berry-img">
             <img src="res/image/backgrounds/level/1.png" alt="" id="level-1-background">
@@ -181,6 +189,8 @@ block 0 0</textarea>
                 let platforms = [];
                 /** @type {{x:number,y:number}[]} */
                 let boxes = [];
+				/** @type {{x:number,y:number}[]} */
+				let frames = [];
                 /** @type {{x:number,y:number}[]} */
                 let blocks = [];
                 /** @type {{
@@ -211,6 +221,10 @@ block 0 0</textarea>
                                 let [x, y] = params.map(i => +i);
                                 blocks.push({x, y});
                             } break;
+							case "frame" : {
+								let [x, y] = params.map(i => +i);
+								frames.push({x, y});
+							} break;
                             case "pumpkin" : {
                                 let [x, y] = params.map(i => +i);
                                 pumpkins.push({x, y});
@@ -307,6 +321,15 @@ block 0 0</textarea>
 
                     code += `    level.addBlockAt(${x + 1.5}, ${y + 1.5});\n`;
                 }
+				for (let {x, y} of frames) {
+					let p = document.createElement('div');
+					p.className = 'frame';
+					p.style.setProperty('left', 50 + x * 50 + 'px');
+					p.style.setProperty('top', 50 + y * 50 + 'px');
+					preview.appendChild(p);
+
+					code += `    level.addFrameAt(${x + 1.5}, ${y + 1.5});\n`;
+				}
 
                 let all_code = `new Level(${level_name ?? "\"Good Luck!\""}, ${
                     level_background ? `document.getElementById(${level_background})` : null

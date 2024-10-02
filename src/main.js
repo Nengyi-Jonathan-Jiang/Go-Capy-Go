@@ -87,6 +87,8 @@ requestAnimationFrame(function frame(currTime) {
             document.getElementById('title-audio').currentTime = 0;
             document.getElementById('win-audio')?.pause();
             document.getElementById('win-audio').currentTime = 0;
+
+            /** @type {Level} */
             const level = levels[currLevelIndex];
             level.update(delta_time);
             level.render(renderer);

@@ -4,6 +4,7 @@ class GameObject {
     #body; #size; #image;
     #collisionLayer;
     #collisionMask;
+    zIndex;
 
     /**
      * @param {Vec2} size
@@ -37,6 +38,7 @@ class GameObject {
         this.rotation = 0;
         this.angularVelocity = 0;
         this.collisionLayer = 0;
+        this.zIndex = 0;
     }
 
     /** @param {HTMLImageElement} image */
