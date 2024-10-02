@@ -84,6 +84,16 @@
 				height:           50px;
 				background-size:  contain;
 			}
+			.fan {
+				background-image: url("res/image/game/fan.png");
+				position:         absolute;
+				width:            50px;
+				height:           50px;
+				background-size:  contain;
+			}
+			.fan.left { transform: rotate(180deg) }
+			.fan.up { transform: rotate(90deg) }
+			.fan.down { transform: rotate(-90deg) }
 
             .button {
                 position:         absolute;
@@ -191,10 +201,11 @@ block 0 0</textarea>
                 let boxes = [];
 				/** @type {{x:number,y:number}[]} */
 				let frames = [];
-                /** @type {{x:number,y:number}[]} */
+				/** @type {{x:number,y:number}[]} */
                 let blocks = [];
                 /** @type {{
                  *      buttons: {x: number, y:number}[],
+				 *      fans: {x:number, y:number, direction: "left"|"up"|"down"|"right", inverted: boolean}[],
                  *      doors:   {x:number, y:number, w:number, h:number}[],
                  *      color:   string
                  *  }[]} */
@@ -225,12 +236,20 @@ block 0 0</textarea>
 								let [x, y] = params.map(i => +i);
 								frames.push({x, y});
 							} break;
+							case "fan": {
+								let [color, x, y, d, inverted] = [...params, ""];
+								controls.find(({color: controlColor}) => controlColor === color).fans.push({
+									x: +x, y: +y,
+									direction: d.toLowerCase(),
+									inverted: inverted.toLowerCase() === 'inverted'
+								});
+							} break;
                             case "pumpkin" : {
                                 let [x, y] = params.map(i => +i);
                                 pumpkins.push({x, y});
                             } break;
                             case "control" : {
-                                controls.push({doors: [], buttons: [], color: params[0]});
+                                controls.push({doors: [], buttons: [], fans:[], color: params[0]});
                             } break;
                             case "button" : {
                                 let [color, ...rest] = params;
@@ -288,7 +307,7 @@ block 0 0</textarea>
                     p_code += `    level.addPumpkinAt(${x + 1.5}, ${y + 1.4});\n`;
                 }
                 for (let i = 0; i < controls.length; i++) {
-                    let {buttons, doors, color} = controls[i];
+                    let {buttons, doors, fans, color} = controls[i];
                     code += `    let doorManager${i} = level.addDoorManager("${color}");\n`;
                     for (let {x, y, w, h} of doors) {
                         let p = document.createElement('div');
@@ -302,6 +321,18 @@ block 0 0</textarea>
                         preview.appendChild(p);
                         code += `    doorManager${i}.linkDoor(level.addDoorAt(${x + 1 + w / 2}, ${y + 1 + Math.abs(h) / 2}, ${w}, ${h}))\n`;
                     }
+					for (let {x, y, direction, inverted} of fans) {
+						let p = document.createElement('div');
+						p.className = 'fan ' + direction;
+						p.style.setProperty('left', 50 + x * 50 + 'px');
+						p.style.setProperty('top', 50 + y * 50 + 'px');
+						p.style.setProperty('--color', color)
+						preview.appendChild(p);
+
+						code += `    doorManager${i}.linkFan(level.addFanAt(${x + 1.5}, ${y + 1.5}, ${
+							direction === 'left' ? -1 : 1
+						}))\n`;
+					}
                     for (let {x, y} of buttons) {
                         let p = document.createElement('div');
                         p.className = 'button';

@@ -90,7 +90,7 @@ requestAnimationFrame(function frame(currTime) {
 
             /** @type {Level} */
             const level = levels[currLevelIndex];
-            level.update(delta_time);
+            level.update(Math.min(delta_time, 16.666));
             level.render(renderer);
             if(level.isWon) {
                 document.getElementById('levels').children[currLevelIndex].dataset.win = "";

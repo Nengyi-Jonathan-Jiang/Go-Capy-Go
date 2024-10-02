@@ -1,0 +1,42 @@
+/*
+@name "Skater"
+@background "level-1-background"
+
+platform 2 4 1 3
+box 1 3
+frame 3 4
+frame 4 4
+frame 5 4
+frame 6 4
+frame 7 4
+frame 8 4
+frame 9 4
+platform 10 4 1 3
+
+control #fac
+button #fac 0 6
+door #fac 12 0 1 7
+door #fac 1 4 1 -3
+frame 1 4
+frame 1 5
+frame 1 6
+*/
+new Level("Skater", document.getElementById("level-1-background"), function(level, player, berry){
+    level.addPlatformAt(3.5, 6.5, 1, 3);
+    level.addPlatformAt(11.5, 6.5, 1, 3);
+    level.addBoxAt(2.5, 4.5);
+    let doorManager0 = level.addDoorManager("#fac");
+    doorManager0.linkDoor(level.addDoorAt(13.5, 4.5, 1, 7))
+    doorManager0.linkDoor(level.addDoorAt(2.5, 6.5, 1, -3))
+    doorManager0.linkButton(level.addButtonAt(1.5, 8))
+    level.addFrameAt(4.5, 5.5);
+    level.addFrameAt(5.5, 5.5);
+    level.addFrameAt(6.5, 5.5);
+    level.addFrameAt(7.5, 5.5);
+    level.addFrameAt(8.5, 5.5);
+    level.addFrameAt(9.5, 5.5);
+    level.addFrameAt(10.5, 5.5);
+    level.addFrameAt(2.5, 5.5);
+    level.addFrameAt(2.5, 6.5);
+    level.addFrameAt(2.5, 7.5);
+})

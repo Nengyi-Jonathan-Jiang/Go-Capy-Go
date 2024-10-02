@@ -13,6 +13,8 @@ class DoorManager extends GameObject {
         this.collisionLayer = 31;
         /** @type {{door: DoorObject, inverted: boolean}[]} */
         this.linkedDoors = [];
+        /** @type {{fan: HorizontalFanObject, inverted: boolean}[]} */
+        this.linkedFans = [];
         /** @type {{button: ButtonObject, inverted: boolean}[]} */
         this.linkedButtons = [];
     }
@@ -35,9 +37,19 @@ class DoorManager extends GameObject {
         button.color = this.color;
     }
 
+    /**
+     * @param {HorizontalFanObject} fan
+     * @param inverted
+     */
+    linkFan(fan, inverted = false) {
+        this.linkedFans.push({fan, inverted});
+        fan.color = this.color;
+    }
+
     update(engine, deltaTime) {
         let conditionsMet = !this.linkedButtons.find(({button, inverted}) => button.isPressed === inverted);
         this.linkedDoors.forEach(({door, inverted}) => door.open = inverted !== conditionsMet);
+        this.linkedFans.forEach(({fan, inverted}) => fan.on = inverted !== conditionsMet);
     }
 }
 
@@ -130,5 +142,40 @@ class DoorObject extends GameObject {
     draw(ctx) {
         ctx.fillStyle = this.color;
         ctx.fillRect(-0.5, -0.5, 1, 1);
+    }
+}
+
+class HorizontalFanObject extends GameObject {
+    on = false;
+    static image = document.getElementById('fan-img');
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {1 | -1} direction
+     */
+    constructor(x, y, direction = 1) {
+        super(new Vec2(1, 1), HorizontalFanObject.image, {isStatic: true});
+        this.position = new Vec2(x, y);
+        this.color = '#f00'
+        this.direction = direction;
+    }
+
+    draw(ctx) {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(-0.5, -0.5, 1, 1);
+
+        ctx.save();
+        ctx.scale(this.direction, 1);
+        super.draw(ctx);
+        ctx.restore();
+    }
+
+    update(engine, deltaTime) {
+        if(this.on) {
+            engine.gameObjects.forEach((i) => {
+                i.addForce(new Vec2(this.direction * 0.00002, 0));
+            })
+        }
     }
 }

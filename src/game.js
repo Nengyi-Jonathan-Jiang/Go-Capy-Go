@@ -5,13 +5,17 @@ class Level {
      * @param {(level: Level, player: GameObject, berry: GameObject)=>any} [onRestart]
      * @param {(level: Level)=>any} [onLoad]
      * @param {(level: Level)=>any} [onUpdate]
+     * @param {Vec2} [size]
+     * @param {number} [scale]
      */
     constructor(
         name,
         background,
         onRestart,
         onLoad,
-        onUpdate
+        onUpdate,
+        size = Renderer.scale,
+        scale = 1
     ) {
         this.name = name;
         this.background = background;
@@ -24,6 +28,9 @@ class Level {
         });
         this.onUpdate = onUpdate ?? (() => {
         });
+
+        this.size = size;
+        this.scale = scale;
 
         this.reset();
     }
@@ -50,12 +57,20 @@ class Level {
     resetPersistentLevelObjects() {
         const {engine} = this;
         engine.remove(...engine.gameObjects.filter(i => !this.volatileObjects.includes(i)));
-        this.player.position = new Vec2(1.5, 7.575);
-        this.berry.position = new Vec2(15.5, 7.5);
-        engine.add(new PlatformObject(8, 0.5, 16, 1));
-        engine.add(new PlatformObject(8, 8.5, 16, 1));
-        engine.add(new PlatformObject(0.5, 4.5, 1, 9));
-        engine.add(new PlatformObject(15.5, 3.5, 1, 7));
+        this.player.position = new Vec2(1.5, this.size.y - 1.425);
+        this.berry.position = new Vec2(this.size.x - 0.5, this.size.y - 1.5);
+        engine.add(new PlatformObject(
+            this.size.x / 2, 0.5, this.size.x, 1
+        ));
+        engine.add(new PlatformObject(
+            this.size.x / 2, this.size.y - 0.5, this.size.x, 1
+        ));
+        engine.add(new PlatformObject(
+            0.5, this.size.y / 2, 1, this.size.y
+        ));
+        engine.add(new PlatformObject(
+            this.size.x - 0.5, this.size.y / 2 - 1, 1, this.size.y - 2
+        ));
         this.generate(this, this.player, this.berry);
         engine.add(this.berry, this.player);
     }
@@ -144,6 +159,17 @@ class Level {
     /**
      * @param {number} x
      * @param {number} y
+     * @param {1 | -1} direction
+     */
+    addFanAt(x, y, direction) {
+        let fan = new HorizontalFanObject(x, y, direction)
+        this.engine.add(fan);
+        return fan;
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
      */
     addButtonAt(x, y) {
         let button = new ButtonObject(x, y, this.engine);
@@ -203,6 +229,14 @@ class Level {
 
     /** @param {Renderer} renderer */
     render(renderer) {
-        renderer.render(this.engine, this.background);
+        renderer.scale = this.size.times(this.scale);
+
+        // let cameraPosition = this.player.position;
+        let cameraPosition = Renderer.scale.times(0.5);
+        renderer.render(
+            this.engine, this.background,
+            cameraPosition,
+            this.size
+        );
     }
 }
