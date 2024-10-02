@@ -24,7 +24,9 @@ class Renderer {
         else {
             ctx.clearRect(0, 0, ...this.scale);
         }
-        for(let gameObject of engine.gameObjects){
+        for(let gameObject of engine.gameObjects.toSorted(
+            (a, b) => a.zIndex - b.zIndex
+        )){
             ctx.save();
             ctx.translate(...gameObject.position);
             ctx.rotate(gameObject.rotation);

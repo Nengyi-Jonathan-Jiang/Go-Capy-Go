@@ -83,6 +83,8 @@ requestAnimationFrame(function frame() {
             document.getElementById('title-audio').currentTime = 0;
             document.getElementById('win-audio')?.pause();
             document.getElementById('win-audio').currentTime = 0;
+
+            /** @type {Level} */
             const level = levels[currLevelIndex];
             level.update();
             level.render(renderer);

@@ -6,20 +6,29 @@ class Level {
      * @param {(level: Level)=>any} [onLoad]
      * @param {(level: Level)=>any} [onUpdate]
      */
-    constructor(name, background, onRestart, onLoad, onUpdate) {
+    constructor(
+        name,
+        background,
+        onRestart,
+        onLoad,
+        onUpdate
+    ) {
         this.name = name;
         this.background = background;
         this.engine = new GameEngine();
         this.recorders = [new ShadowRecorder(), new ShadowRecorder(), new ShadowRecorder()];
 
-        this.generate = onRestart ?? (() => {});
-        this.onLoad = onLoad ?? (() => {});
-        this.onUpdate = onUpdate ?? (() => {});
+        this.generate = onRestart ?? (() => {
+        });
+        this.onLoad = onLoad ?? (() => {
+        });
+        this.onUpdate = onUpdate ?? (() => {
+        });
 
         this.reset();
     }
 
-    get currentRecorder (){
+    get currentRecorder() {
         return this.recorders[2];
     }
 
@@ -38,7 +47,7 @@ class Level {
         this.restartWithShadow();
     }
 
-    resetPersistentLevelObjects(){
+    resetPersistentLevelObjects() {
         const {engine} = this;
         engine.remove(...engine.gameObjects.filter(i => !this.volatileObjects.includes(i)));
         this.player.position = new Vec2(1.5, 7.575);
@@ -51,7 +60,7 @@ class Level {
         engine.add(this.berry, this.player);
     }
 
-    restartWithShadow (){
+    restartWithShadow() {
         this.currentRecorder.stopRecording();
         this.resetPersistentLevelObjects();
 
@@ -59,13 +68,12 @@ class Level {
 
 
         this.currentRecorder.startRecording(this.engine);
-        for(let i = 0; i < 2; i++){
+        for (let i = 0; i < 2; i++) {
             this.currentlyRunningRecordings[i].startPlayback(obj => {
-                if(obj instanceof PlayerObject){
+                if (obj instanceof PlayerObject) {
                     obj = new ShadowPlayerObject(i);
                     obj.collisionLayer = 2;
-                }
-                else obj.collisionLayer = 1;
+                } else obj.collisionLayer = 1;
 
                 let oldDraw = obj.draw;
                 obj.draw = ctx => {
@@ -116,10 +124,18 @@ class Level {
     /**
      * @param {number} x
      * @param {number} y
+     */
+    addFrameAt(x, y) {
+        this.engine.add(new FrameObject(x, y));
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
      * @param {number} w
      * @param {number} h
      */
-    addDoorAt(x, y, w, h){
+    addDoorAt(x, y, w, h) {
         let door = new DoorObject(x, y, w, h)
         this.engine.add(door);
         return door;
@@ -129,7 +145,7 @@ class Level {
      * @param {number} x
      * @param {number} y
      */
-    addButtonAt(x, y){
+    addButtonAt(x, y) {
         let button = new ButtonObject(x, y, this.engine);
         this.engine.add(button);
         return button;
@@ -138,7 +154,7 @@ class Level {
     /**
      * @param {string} color
      */
-    addDoorManager(color){
+    addDoorManager(color) {
         let doorManager = new DoorManager(color, this.engine);
         this.engine.add(doorManager);
         return doorManager;
@@ -158,29 +174,26 @@ class Level {
             i => i.clientY < window.innerHeight / 2
         );
 
-        if(moveLeft){
+        if (moveLeft) {
             this.player.move(-1)
-        }
-        else if(moveRight){
+        } else if (moveRight) {
             this.player.move(1)
-        }
-        else {
+        } else {
             this.player.move(0);
         }
 
-        if(moveJump){
+        if (moveJump) {
             this.player.tryJump(this.engine);
         }
-        if(events.keysDown['r']) {
+        if (events.keysDown['r']) {
             this.reset();
         }
 
-        for(let obj of this.engine.gameObjects.filter(i => this.player.isCollidingWith(i))) {
-            if(obj instanceof PumpkinObject) {
+        for (let obj of this.engine.gameObjects.filter(i => this.player.isCollidingWith(i))) {
+            if (obj instanceof PumpkinObject) {
                 this.engine.remove(obj);
                 this.restartWithShadow();
-            }
-            else if(obj instanceof BerryObject) {
+            } else if (obj instanceof BerryObject) {
                 this.isWon = true;
             }
         }
